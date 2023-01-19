@@ -1,0 +1,39 @@
+﻿@model List<QuestionVM>
+@{
+    ViewData["Title"] = "Author Quiz";
+}
+
+<div>
+    <h1 class="display-4">Author Quiz</h1>
+    <form method="post" class="container">
+        
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            switch (Model[i].Type)
+            {
+                case QuestionType.ShortAnswer:
+                case QuestionType.Numeric:
+                    <label asp-for="@Model[i].UserAnswer" class="control-label">@Model[i].Question</label>
+                    <input asp-for="@Model[i].UserAnswer" type="text" class="form-control pb-1" />
+                    <p>@Model[i]?.IsRight</p>   @* null means the question hasn't been answered and checked*@
+                    <br />
+                    break;
+
+                case QuestionType.TrueFalse:
+                    <p class="row">@Model[i].Question</p>
+                    <div class="row">
+                        <label for="true" class="col-1">True</label>
+                        <input asp-for="@Model[i].UserAnswer" id="true" type="radio" value="true" class="form-control col-1" />
+                    </div>
+                    <div class="row">
+                        <label for="false" class="col-1">False</label>
+                        <input asp-for="@Model[i].UserAnswer" id="false" type="radio" value="false" class="form-control col-1" />
+                    </div>
+                    <p>@Model[i]?.IsRight</p>
+                    break;
+            }
+        }
+        <br />
+        <input type="submit" value="Check Answers" class="form-control btn" />
+    </form>
+</div>

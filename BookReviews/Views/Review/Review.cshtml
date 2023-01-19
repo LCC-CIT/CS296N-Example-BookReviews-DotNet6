@@ -1,0 +1,18 @@
+﻿@model Review
+
+<h1 class="display-4">Add a Review</h1>
+<form method="post">
+    <label asp-for="Book.BookTitle">Title</label>
+    <input asp-for="Book.BookTitle" /><br />
+
+    <label asp-for="Book.AuthorName">Author</label>
+    <input asp-for="Book.AuthorName" /><br />
+
+    <label asp-for="Reviewer.UserName">Reviewer</label>
+    <input asp-for="Reviewer.UserName" /><br />
+
+    <label asp-for="ReviewText">Review</label>
+    <textarea asp-for="ReviewText"></textarea><br />
+
+    <button type="submit">Submit</button>
+</form>
