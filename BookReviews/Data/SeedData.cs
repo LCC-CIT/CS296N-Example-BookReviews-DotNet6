@@ -6,9 +6,8 @@ namespace BookReviews.Data
 {
     public class SeedData
     {
-     public static void Seed(ApplicationDbContext context)
+        public static void Seed(ApplicationDbContext context)
         {
-            /*
             if (!context.Reviews.Any())  // this is to prevent duplicate data from being added
             {
                 Book book = new Book { AuthorName = "Samuel Shallabarger",
@@ -70,8 +69,7 @@ namespace BookReviews.Data
                 context.Reviews.Add(review);
 
                 context.SaveChanges(); // stores all the reviews in the DB
-            
-            } */
+            }
         }
     }
 }
