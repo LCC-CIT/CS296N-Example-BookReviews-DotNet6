@@ -1,4 +1,5 @@
 ﻿using BookReviews.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 
@@ -6,11 +7,20 @@ namespace BookReviews.Data
 {
     public class SeedData
     {
-     public static void Seed(ApplicationDbContext context)
+     public static void Seed(ApplicationDbContext context, IServiceProvider provider)
         {
-            /*
             if (!context.Reviews.Any())  // this is to prevent duplicate data from being added
             {
+                var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+                // Create some fake users
+                // TODO: Use user secrets to hide the password
+                const string SECRET_PASSWORD = "Secret!123";
+                AppUser emmaWatson = new AppUser { UserName = "Emma Watson" };
+                AppUser danielRadcliffe = new AppUser { UserName = "Daniel Radcliffe" };
+                userManager.CreateAsync(danielRadcliffe, SECRET_PASSWORD);
+                AppUser brianBird = new AppUser { UserName = "Brian Bird" };
+                userManager.CreateAsync(brianBird, SECRET_PASSWORD);
+
                 Book book = new Book { AuthorName = "Samuel Shallabarger",
                     BookTitle = "Prince of Foxes"
                 };
@@ -21,7 +31,7 @@ namespace BookReviews.Data
                 {
                     Book = book,
                     ReviewText = "Great book, a must read!",
-                    Reviewer = new AppUser { UserName = "Emma Watson" },
+                    Reviewer = emmaWatson,
                     ReviewDate = DateTime.Parse("11/1/2020")
                 };
                 context.Reviews.Add(review);  // queues up the review to be added to the DB
@@ -30,7 +40,7 @@ namespace BookReviews.Data
                 {
                     Book = book,
                     ReviewText = "I love the clever, witty dialog",
-                    Reviewer = new AppUser { UserName = "Daniel Radliiffe" },
+                    Reviewer = danielRadcliffe,
                     ReviewDate = DateTime.Parse("11/15/2020")
                 };
                 context.Reviews.Add(review);
@@ -39,8 +49,6 @@ namespace BookReviews.Data
                 // the user object once and store it so that both reviews will be
                 // associated with the same entity in the DB.
 
-                AppUser reviewerBrianBird = new AppUser() { UserName = "Brian Bird" };
-                context.AppUsers.Add(reviewerBrianBird);
                 context.SaveChanges();   // This will add a UserID to the reviewer object
 
                 review = new Review
@@ -51,7 +59,7 @@ namespace BookReviews.Data
                         AuthorName = "Lief Enger"
                     },
                     ReviewText = "Wonderful book, written by a distant cousin of mine.",
-                    Reviewer = reviewerBrianBird,
+                    Reviewer = brianBird,
                     ReviewDate = DateTime.Parse("11/30/2020")
                 };
                 context.Reviews.Add(review);
@@ -64,14 +72,14 @@ namespace BookReviews.Data
                         AuthorName = "Sir Walter Scott"
                     },
                     ReviewText = "It was a little hard going at first, but then I loved it!",
-                    Reviewer = reviewerBrianBird,
+                    Reviewer =brianBird,
                     ReviewDate = DateTime.Parse("11/1/2020")
                 };
                 context.Reviews.Add(review);
 
                 context.SaveChanges(); // stores all the reviews in the DB
             
-            } */
+            }
         }
     }
 }
