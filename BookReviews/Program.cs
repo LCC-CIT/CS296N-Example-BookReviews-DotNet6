@@ -54,7 +54,7 @@ app.UseAuthentication();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    SeedData.Seed(context);
+    SeedData.Seed(context, scope.ServiceProvider);
 }
 
 app.Run();
