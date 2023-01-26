@@ -21,7 +21,7 @@ namespace BookReviewTests
         public int StoreReview(Review model)
         {
             int status = 0;
-            if (model != null)
+            if (model != null && model.Book != null)
             {
                 model.ReviewId = reviews.Count + 1;
                 reviews.Add(model);
@@ -30,14 +30,5 @@ namespace BookReviewTests
             return status;
         }
 
-        Review IReviewRepository.GetReviewById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        int IReviewRepository.StoreReview(Review model)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

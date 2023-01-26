@@ -66,7 +66,8 @@ namespace BookReviews.Controllers
         public IActionResult Review(Review model)
         {
             // Get the AppUser object for the current user
-            model.Reviewer = userManager.GetUserAsync(User).Result;
+            // For unit testing, there won't be a UserManager, so Reviewer will be null
+            model.Reviewer = userManager?.GetUserAsync(User).Result;
             if (repo.StoreReview(model) > 0)
             {
                 return RedirectToAction("Index", new { reviewId = model.ReviewId });
