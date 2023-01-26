@@ -13,7 +13,7 @@ namespace BookReviewTests
 
         public ReviewControllerTests()
         {
-            controller = new ReviewController(repo);
+            controller = new ReviewController(repo, null); // not passsing in UserManager
         }
 
         [Fact]
@@ -23,10 +23,10 @@ namespace BookReviewTests
             // Done in the constructor
 
             // act
-            var result = controller.Review(new Review());
+            var result = controller.Review(new Review {Book = new Book()});
 
             // assert
-            // Check to see if I got a RedirectToActionResult
+            // This result is returned if the review was stored successfully
             Assert.True(result.GetType() == typeof(RedirectToActionResult));
         }
 
@@ -37,10 +37,11 @@ namespace BookReviewTests
             // Done in the constructor
 
             // act
-            var result = controller.Review(null);
+            // The review will NOT be stored successfully without a Book object
+            var result = controller.Review(new Review());
 
             // assert
-            // Check to see if I got a RedirectToActionResult
+            // This result is returned if the review was NOT stored successfully
             Assert.True(result.GetType() == typeof(ViewResult));
         }
 
