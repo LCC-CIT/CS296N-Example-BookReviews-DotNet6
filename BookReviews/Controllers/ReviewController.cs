@@ -1,5 +1,6 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookReviews.Controllers
@@ -7,9 +8,11 @@ namespace BookReviews.Controllers
     public class ReviewController : Controller
     {
         IReviewRepository repo;
-        public ReviewController(IReviewRepository r)
+        UserManager<AppUser> userManager;
+        public ReviewController(IReviewRepository r, UserManager<AppUser> userMngr)
         {
             repo = r;
+            userManager = userMngr;
         }
 
         public IActionResult Index(String reviewerName, String bookTitle, String reviewDate)
@@ -62,6 +65,8 @@ namespace BookReviews.Controllers
         [HttpPost]
         public IActionResult Review(Review model)
         {
+            // Get the AppUser object for the current user
+            model.Reviewer = userManager.GetUserAsync(User).Result;
             if (repo.StoreReview(model) > 0)
             {
                 return RedirectToAction("Index", new { reviewId = model.ReviewId });
