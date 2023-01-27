@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
+
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signInManager
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,32 +23,34 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1">
                         @if (signInManager.IsSignedIn(User))
                         {
-                            // signed-in user - Log Out button and username 
+                            // Signed-in user - Log Out button and username 
                             <li class="nav-item"> 
-                            <form method="post" asp-action="Logout" asp-controller="Account" asp-area="">
-                            <input type="submit" value="Log Out" class="btn btn-outline-light" />
-                            <span class="text-light">@User.Identity.Name</span>
-                            </form> </li>
+                                <form method="post" asp-action="Logout" asp-controller="Account">
+                                    <input type="submit" value="Log Out" class="btn btn-outline-dark" />
+                                    <span class="text-dark">@User.Identity.Name</span>
+                                </form>
+                            </li>
                         }
                         else
                         {
-                        // get current action 
-                        var action = ViewContext.RouteData.Values["action"]?.ToString();
+                            // Get current action 
+                            var action = ViewContext.RouteData.Values["action"]?.ToString();
                             // anonymous user - Register link and Log In button 
                             <li class="nav-item"> 
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
                                 <span class="fas fa-edit"></span> &nbsp; Register </a> 
-                            </li >
+                            </li>
                             <li class="nav-item"> 
-                                <a asp-action="Login" asp-controller="Account" asp-area="" class="btn btn-outline-light"> Log In</a>
+                                <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark">Log In</a>
                             </li> 
                          }
                     </ul>
