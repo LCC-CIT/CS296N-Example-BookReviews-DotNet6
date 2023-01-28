@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@6.2.1",
+      "destination": "wwwroot/font-awesome/",
+      "files": [
+        "css/all.min.css",
+        "js/all.min.js"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@cseitz/fontawesome-svg-solid@1.0.1",
+      "destination": "wwwroot/lib/cseitz/fontawesome-svg-solid/"
+    }
+  ]
+}
