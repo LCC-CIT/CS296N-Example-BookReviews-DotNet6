@@ -6,10 +6,11 @@ using System.Data;
 
 namespace BookReviews.Controllers
 {
-   // [Authorize(Role = "Admin")]
+   [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        private UserManager<AppUser> userManager; private RoleManager<IdentityRole> roleManager;
+        private UserManager<AppUser> userManager; 
+        private RoleManager<IdentityRole> roleManager;
         public UserController(UserManager<AppUser> userMngr, RoleManager<IdentityRole> roleMngr)
         {
             userManager = userMngr;
@@ -23,7 +24,7 @@ namespace BookReviews.Controllers
                 user.RoleNames = await userManager.GetRolesAsync(user); 
                 users.Add(user);
             }
-            UserViewModel model = new UserViewModel
+            UserVM model = new UserVM
             {
                 Users = users,
                 Roles = roleManager.Roles
