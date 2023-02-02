@@ -1,60 +1,77 @@
-﻿
-
-@model UserVM
+﻿@model UserVM
 @{
 
-ViewData["Title"] = " | Manage Users"; }
+    ViewData["Title"] = " | Manage Users";
+}
 
-<h1 class="mb-2">Manage Users</h1> <h5 class="mt-2">
-    <a asp-action="Add">Add a User</a></h5>
+<h1 class="mb-2">Manage Users</h1>
+<h5 class="mt-2">
+    <a asp-action="Add">Add a User</a>
+</h5>
 
-<table class="table table-bordered table-striped table-sm"> <thead>
+<table class="table table-bordered table-striped table-sm">
+    <thead>
 
-<tr><th>Username</th><th>Roles</th><th></th><th></th><th></th></ tr>
+        <tr><th>Username</th><th>Roles</th><th></th><th></th><th></th></ tr>
 
-</thead> <tbody>
+    </thead>
+    <tbody>
 
-@if (Model.Users.Count() == 0) {
+        @if (Model.Users.Count() == 0)
+        {
 
-<tr><td colspan="5">There are no user accounts.</td></tr> }
+            <tr><td colspan="5">There are no user accounts.</td></tr>
+        }
 
-else {
+        else
+        {
 
-@foreach (AppUser user in Model.Users) {
+            @foreach (AppUser user in Model.Users)
+            {
 
-<tr>
+                <tr>
 
-<td>@user.UserName</td> <td>
+                    <td>@user.UserName</td>
+                    <td>
 
-@foreach (string roleName in user.RoleNames) {
+                        @foreach (string roleName in user.RoleNames)
+                        {
 
-<div>@roleName</div> }
+                            <div>@roleName</div>
+                        }
 
-</td> <td>
+                    </td>
+                    <td>
 
-<form method="post" asp-action="Delete" asp-route-id="@user.Id">
+                        <form method="post" asp-action="Delete" asp-route-id="@user.Id">
 
-<button type="submit" class="btn btn-primary"> Delete User</button>
+                            <button type="submit" class="btn btn-primary"> Delete User</button>
 
-</form>
+                        </form>
 
-</td> <td>
+                    </td>
+                    <td>
 
-<form method="post" asp-action="AddToAdmin" asp-route-id="@user.Id">
+                        <form method="post" asp-action="AddToAdmin" asp-route-id="@user.Id">
 
-<button type="submit" class="btn btn-primary"> Add To Admin</button>
+                            <button type="submit" class="btn btn-primary"> Add To Admin</button>
 
-</form>
+                        </form>
 
-</td> <td>
+                    </td>
+                    <td>
 
-<form method="post" asp-action="RemoveFromAdmin" asp-route-id="@user.Id">
+                        <form method="post" asp-action="RemoveFromAdmin" asp-route-id="@user.Id">
 
-<button type="submit" class="btn btn-primary"> Remove From Admin</button>
+                            <button type="submit" class="btn btn-primary"> Remove From Admin</button>
 
-</form> </td>
+                        </form>
+                    </td>
 
-</tr> }
+                </tr>
+            }
 
-} </tbody> </table> 
+        }
+    </tbody>
+</table>
 
