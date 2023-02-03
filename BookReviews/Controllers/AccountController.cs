@@ -76,7 +76,9 @@ namespace BookReviews.Controllers
             return View(model);
         }
 
+        public ViewResult AccessDenied()
+        {
+            return View();
+        }
     }
-
-
 }

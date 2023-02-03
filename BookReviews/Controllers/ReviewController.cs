@@ -1,5 +1,6 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,12 +57,13 @@ namespace BookReviews.Controllers
         }
 
 
-
+        [Authorize]
         public IActionResult Review()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Review(Review model)
         {

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" integrity="sha-long-hash_code" crossorigin="anonymous">
-    A
 </head>
 
 @using Microsoft.AspNetCore.Identity
@@ -37,8 +36,16 @@
                     <ul class="navbar-nav ms-auto">
                         @if (signInManager.IsSignedIn(User))
                         {
-                            // Signed-in user - Log Out button and username 
-                            <li class="nav-item"> 
+                            @if (User.IsInRole("Admin"))
+                            // Signed-in user who is an admin 
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Index">
+                                        <span class="fas fa-cog"></span>&nbsp;Admin</a>
+                                </li>
+                            }
+                            // Signed-in user - Log Out button and username
+                            <li class="nav-item">
                                 <form method="post" asp-action="Logout" asp-controller="Account">
                                     <input type="submit" value="Log Out" class="btn btn-outline-dark" />
                                     <span class="text-dark">@User.Identity.Name</span>
@@ -47,17 +54,18 @@
                         }
                         else
                         {
-                            // Get current action 
+                            // Get current action
                             var action = ViewContext.RouteData.Values["action"]?.ToString();
-                            // anonymous user - Register link and Log In button 
-                            <li class="nav-item"> 
+                            // anonymous user - Register link and Log In button
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
-                                <span class="fas fa-edit"></span> &nbsp; Register </a> 
+                                    <span class="fas fa-edit"></span> &nbsp; Register
+                                </a>
                             </li>
-                            <li class="nav-item"> 
-                                <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark">Log In</a>
-                            </li> 
-                         }
+                            <li class="nav-item">
+                            <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark">Log In</a>
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -71,7 +79,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - BookReviews - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - BookReviews - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
