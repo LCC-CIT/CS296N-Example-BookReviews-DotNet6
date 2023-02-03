@@ -1,7 +1,5 @@
 ﻿using BookReviews.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Linq;
 
 namespace BookReviews.Data
 {
@@ -13,6 +11,7 @@ namespace BookReviews.Data
             {
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
                 // Create some fake users
+                /* Moved to SeedUsers
                 // TODO: Use user secrets to hide the password
                 const string SECRET_PASSWORD = "Secret!123";
                 AppUser emmaWatson = new AppUser { UserName = "Emma Watson" };
@@ -20,6 +19,8 @@ namespace BookReviews.Data
                 userManager.CreateAsync(danielRadcliffe, SECRET_PASSWORD);
                 AppUser brianBird = new AppUser { UserName = "Brian Bird" };
                 userManager.CreateAsync(brianBird, SECRET_PASSWORD);
+                */
+
 
                 Book book = new Book { AuthorName = "Samuel Shallabarger",
                     BookTitle = "Prince of Foxes"
@@ -27,6 +28,7 @@ namespace BookReviews.Data
                 context.Books.Add(book);
                 context.SaveChanges();
 
+                AppUser emmaWatson = userManager.FindByNameAsync("EmmaWatson").Result;
                 Review review = new Review
                 {
                     Book = book,
@@ -36,6 +38,7 @@ namespace BookReviews.Data
                 };
                 context.Reviews.Add(review);  // queues up the review to be added to the DB
 
+                AppUser danielRadcliffe = userManager.FindByNameAsync("DanielRadcliffe").Result;
                 review = new Review
                 {
                     Book = book,
@@ -51,6 +54,7 @@ namespace BookReviews.Data
 
                 context.SaveChanges();   // This will add a UserID to the reviewer object
 
+                AppUser brianBird = userManager.FindByNameAsync("BrianBird").Result;
                 review = new Review
                 {
                     Book = new Book
