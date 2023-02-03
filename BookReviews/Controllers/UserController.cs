@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BookReviews.Models;
-using System.Data;
 
 namespace BookReviews.Controllers
 {
@@ -16,13 +15,12 @@ namespace BookReviews.Controllers
             userManager = userMngr;
             roleManager = roleMngr;
         }
-        //public IActionResult Index()
+
         public async Task<IActionResult> Index()
         {
             List<AppUser> users = new List<AppUser>(); 
             foreach (AppUser user in userManager.Users.ToList())
             {
-                //user.RoleNames = userManager.GetRolesAsync(user).Result;
                 user.RoleNames = await userManager.GetRolesAsync(user);
                 users.Add(user);
             }
@@ -52,7 +50,7 @@ namespace BookReviews.Controllers
             }
             return RedirectToAction("Index");
         }
-        // the Add() methods work like the Register() methods from 16-11 and 16-12
+
         [HttpPost]
         public async Task<IActionResult> AddToAdmin(string id)
         {
@@ -68,6 +66,7 @@ namespace BookReviews.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveFromAdmin(string id)
         {
@@ -75,6 +74,7 @@ namespace BookReviews.Controllers
             await userManager.RemoveFromRoleAsync(user, "Admin"); 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
@@ -82,11 +82,42 @@ namespace BookReviews.Controllers
             await roleManager.DeleteAsync(role); 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateAdminRole()
         {
             await roleManager.CreateAsync(new IdentityRole("Admin")); 
             return RedirectToAction("Index");
+        }
+
+        // the Add() methods work like the Register() methods from 16-11 and 16-12
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(RegisterVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new AppUser { UserName = model.Username };
+                var result = await userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }
