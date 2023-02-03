@@ -278,6 +278,10 @@ namespace BookReviews.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("SignUpDate")
                         .HasColumnType("datetime(6)");
 

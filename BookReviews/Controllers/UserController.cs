@@ -18,13 +18,17 @@ namespace BookReviews.Controllers
         }
         public IActionResult Index()
         {
-            List<AppUser> users = new List<AppUser>(); 
-            // foreach (AppUser user in userManager.Users)
-            AppUser user = userManager.FindByNameAsync("admin").Result;
+            List<AppUser> users = new List<AppUser>();
+            users = userManager.Users.ToList();
+            foreach(AppUser user in users)
+            //foreach (AppUser user in userManager.Users)
+            //AppUser user = userManager.FindByNameAsync("admin").Result;
             {
-                // Task task = userManager.GetRolesAsync(user);
-                user.RoleNames = userManager.GetRolesAsync(user).Result;
-                users.Add(user);
+                // user.RoleNames = await userManager.GetRolesAsync(user);
+                var task = userManager.GetRolesAsync(user);
+                task.Wait();
+                user.RoleNames = task.Result;
+                // users.Add(user);
             }
             UserVM model = new UserVM
             {
