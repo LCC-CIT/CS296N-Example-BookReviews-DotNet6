@@ -6,7 +6,7 @@ using System.Data;
 
 namespace BookReviews.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private UserManager<AppUser> userManager; 
@@ -16,14 +16,14 @@ namespace BookReviews.Controllers
             userManager = userMngr;
             roleManager = roleMngr;
         }
-        public IActionResult Index()
+        //public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             List<AppUser> users = new List<AppUser>(); 
-            // foreach (AppUser user in userManager.Users)
-            AppUser user = userManager.FindByNameAsync("admin").Result;
+            foreach (AppUser user in userManager.Users.ToList())
             {
-                // Task task = userManager.GetRolesAsync(user);
-                user.RoleNames = userManager.GetRolesAsync(user).Result;
+                //user.RoleNames = userManager.GetRolesAsync(user).Result;
+                user.RoleNames = await userManager.GetRolesAsync(user);
                 users.Add(user);
             }
             UserVM model = new UserVM

@@ -1,7 +1,5 @@
 ﻿using BookReviews.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Linq;
 
 namespace BookReviews.Data
 {
@@ -15,10 +13,11 @@ namespace BookReviews.Data
                 // Create some fake users
                 // TODO: Use user secrets to hide the password
                 const string SECRET_PASSWORD = "Secret!123";
-                AppUser emmaWatson = new AppUser { UserName = "Emma Watson" };
-                AppUser danielRadcliffe = new AppUser { UserName = "Daniel Radcliffe" };
+                AppUser emmaWatson = new AppUser { UserName = "EmmaWatson" };
+                userManager.CreateAsync(emmaWatson, SECRET_PASSWORD);
+                AppUser danielRadcliffe = new AppUser { UserName = "DanielRadcliffe" };
                 userManager.CreateAsync(danielRadcliffe, SECRET_PASSWORD);
-                AppUser brianBird = new AppUser { UserName = "Brian Bird" };
+                AppUser brianBird = new AppUser { UserName = "BrianBird" };
                 userManager.CreateAsync(brianBird, SECRET_PASSWORD);
 
                 Book book = new Book { AuthorName = "Samuel Shallabarger",
