@@ -1,7 +1,9 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookReviews.Controllers
 {
@@ -15,18 +17,26 @@ namespace BookReviews.Controllers
             userManager = userMngr;
         }
 
-        public IActionResult Index(String reviewerName, String bookTitle, String reviewDate)
+        public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
             List<Review> reviews;
 
             // reviewerName is not null
             if (reviewerName != null)
             {
-                reviews = (
-                    from r in repo.Reviews
-                    where r.Reviewer.UserName == reviewerName
-                    select r
-                    ).ToList<Review>();
+                /* reviews = await ((
+                from r in repo.Reviews
+                where r.Reviewer.UserName == reviewerName
+                select r).ToListAsync<Review>();
+                */
+
+                Task<List<Review>> reviewsTask = (
+                     from r in repo.Reviews
+                     where r.Reviewer.UserName == reviewerName
+                     select r
+                     ).ToListAsync<Review>();
+                 reviews = await reviewsTask;
+
             }
             // bookTitle is not null
             else if (bookTitle != null)
@@ -56,19 +66,20 @@ namespace BookReviews.Controllers
         }
 
 
-
+        [Authorize]
         public IActionResult Review()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult Review(Review model)
+        public async Task<IActionResult> Review(Review model)
         {
             // Get the AppUser object for the current user
             // For unit testing, there won't be a UserManager, so Reviewer will be null
-            model.Reviewer = userManager?.GetUserAsync(User).Result;
-            if (repo.StoreReview(model) > 0)
+            model.Reviewer = await userManager?.GetUserAsync(User);
+            if (await repo.StoreReviewAsync(model) > 0)
             {
                 return RedirectToAction("Index", new { reviewId = model.ReviewId });
             }

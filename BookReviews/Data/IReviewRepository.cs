@@ -6,6 +6,6 @@ namespace BookReviews.Data
     {
         IQueryable<Review> Reviews { get; }  // Read (or retrieve) reviews
         public Review GetReviewById(int id);
-        public int StoreReview(Review model);
+        public Task<int> StoreReviewAsync(Review model);
     }
 }

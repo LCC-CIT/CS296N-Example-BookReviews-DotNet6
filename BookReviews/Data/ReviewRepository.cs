@@ -33,11 +33,14 @@ namespace BookReviews.Data
             return review;
         }
 
-        public int StoreReview(Review model)
+        public async Task<int> StoreReviewAsync(Review model)
         {
             model.ReviewDate = DateTime.Now;
             context.Reviews.Add(model);
-            return context.SaveChanges();
+           // return await context.SaveChangesAsync();
+            Task<int> task = context.SaveChangesAsync();
+            int result = await task;
+            return result;
             // returns a positive value if succussful
         }
     }
