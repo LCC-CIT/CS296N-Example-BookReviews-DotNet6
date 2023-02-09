@@ -2,6 +2,7 @@
 using BookReviews.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookReviewTests
 {
@@ -18,7 +19,7 @@ namespace BookReviewTests
             return review;
         }
 
-        public int StoreReview(Review model)
+        public async Task<int> StoreReviewAsync(Review model)
         {
             int status = 0;
             if (model != null && model.Book != null)
