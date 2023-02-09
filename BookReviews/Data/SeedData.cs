@@ -10,17 +10,6 @@ namespace BookReviews.Data
             if (!context.Reviews.Any())  // this is to prevent duplicate data from being added
             {
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
-                // Create some fake users
-                /* Moved to SeedUsers
-                // TODO: Use user secrets to hide the password
-                const string SECRET_PASSWORD = "Secret!123";
-                AppUser emmaWatson = new AppUser { UserName = "Emma Watson" };
-                AppUser danielRadcliffe = new AppUser { UserName = "Daniel Radcliffe" };
-                userManager.CreateAsync(danielRadcliffe, SECRET_PASSWORD);
-                AppUser brianBird = new AppUser { UserName = "Brian Bird" };
-                userManager.CreateAsync(brianBird, SECRET_PASSWORD);
-                */
-
 
                 Book book = new Book { AuthorName = "Samuel Shallabarger",
                     BookTitle = "Prince of Foxes"
@@ -48,11 +37,7 @@ namespace BookReviews.Data
                 };
                 context.Reviews.Add(review);
 
-                // My next two reviews will be by the same user, so I will create
-                // the user object once and store it so that both reviews will be
-                // associated with the same entity in the DB.
-
-                context.SaveChanges();   // This will add a UserID to the reviewer object
+                context.SaveChanges();
 
                 AppUser brianBird = userManager.FindByNameAsync("BrianBird").Result;
                 review = new Review
