@@ -8,3 +8,5 @@ This example uses a MySQL database. This guide shows how to set up a MySQL datab
 - 02-Identity
 - 03-Authentication
 - 04-Authorization
+- 04B-Auth+SeedUsersWRoles
+- 05-Async
