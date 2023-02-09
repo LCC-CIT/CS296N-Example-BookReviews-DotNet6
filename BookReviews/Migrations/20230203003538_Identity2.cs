@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookReviews.Migrations
 {
-    public partial class Identity : Migration
+    public partial class Identity2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,6 +120,13 @@ namespace BookReviews.Migrations
                 table: "AspNetUsers",
                 type: "datetime(6)",
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Name",
+                table: "AspNetUsers",
+                type: "longtext",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.AddColumn<string>(
                 name: "NormalizedEmail",
@@ -444,6 +451,10 @@ namespace BookReviews.Migrations
 
             migrationBuilder.DropColumn(
                 name: "LockoutEnd",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Name",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(

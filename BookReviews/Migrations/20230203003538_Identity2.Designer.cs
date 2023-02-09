@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookReviews.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230119194225_Identity")]
-    partial class Identity
+    [Migration("20230203003538_Identity2")]
+    partial class Identity2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,6 +279,10 @@ namespace BookReviews.Migrations
             modelBuilder.Entity("BookReviews.Models.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("SignUpDate")
                         .HasColumnType("datetime(6)");
