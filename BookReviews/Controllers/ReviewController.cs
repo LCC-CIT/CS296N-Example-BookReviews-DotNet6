@@ -21,15 +21,9 @@ namespace BookReviews.Controllers
         {
             List<Review> reviews;
 
-            // reviewerName is not null
+            // filter by reviewer name
             if (reviewerName != null)
             {
-                /* reviews = await ((
-                from r in repo.Reviews
-                where r.Reviewer.UserName == reviewerName
-                select r).ToListAsync<Review>();
-                */
-
                 Task<List<Review>> reviewsTask = (
                      from r in repo.Reviews
                      where r.Reviewer.UserName == reviewerName
@@ -37,29 +31,38 @@ namespace BookReviews.Controllers
                      ).ToListAsync<Review>();
                  reviews = await reviewsTask;
 
+                /* 
+                // A more compact version of the same thing:
+                reviews = await ((
+                    from r in repo.Reviews
+                    where r.Reviewer.UserName == reviewerName
+                    select r
+                    ).ToListAsync<Review>();
+                */
+
             }
-            // bookTitle is not null
+            // filter by book title
             else if (bookTitle != null)
             {
-                reviews = (
+                reviews = await (
                     from r in repo.Reviews
                     where r.Book.BookTitle == bookTitle
                     select r
-                    ).ToList<Review>();
+                    ).ToListAsync<Review>();
             }
-            // reviewDate is not null
+            // filter by review date
             else if (reviewDate != null)
             {
-                reviews = (
+                reviews = await (
                     from r in repo.Reviews
                     where r.ReviewDate.Date == DateTime.Parse(reviewDate).Date
                     select r
-                    ).ToList<Review>();
+                    ).ToListAsync<Review>();
             }
             // Both query parameters are null
             else
             {
-                reviews = repo.Reviews.ToList<Review>();
+                reviews = await repo.Reviews.ToListAsync<Review>();
             }
 
             return View(reviews);
@@ -76,9 +79,12 @@ namespace BookReviews.Controllers
         [HttpPost]
         public async Task<IActionResult> Review(Review model)
         {
-            // Get the AppUser object for the current user
-            // For unit testing, there won't be a UserManager, so Reviewer will be null
-            model.Reviewer = await userManager?.GetUserAsync(User);
+            // Get the AppUser object for the currently logged in user
+            // For unit testing, UserManager will be null so accomodate that
+            if (userManager != null)
+            {
+                model.Reviewer = await userManager.GetUserAsync(User);
+            }
             if (await repo.StoreReviewAsync(model) > 0)
             {
                 return RedirectToAction("Index", new { reviewId = model.ReviewId });

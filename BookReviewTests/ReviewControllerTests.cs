@@ -1,6 +1,7 @@
 using BookReviews.Controllers;
 using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
@@ -23,7 +24,7 @@ namespace BookReviewTests
             // Done in the constructor
 
             // act
-            var result = controller.Review(new Review {Book = new Book()});
+            var result = controller.Review(new Review {Book = new Book()}).Result;
 
             // assert
             // This result is returned if the review was stored successfully
@@ -38,7 +39,7 @@ namespace BookReviewTests
 
             // act
             // The review will NOT be stored successfully without a Book object
-            var result = controller.Review(new Review());
+            var result = controller.Review(new Review()).Result;
 
             // assert
             // This result is returned if the review was NOT stored successfully
