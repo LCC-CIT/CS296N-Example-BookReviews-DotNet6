@@ -24,42 +24,19 @@ namespace BookReviews.Controllers
             // filter by reviewer name
             if (reviewerName != null)
             {
-                Task<List<Review>> reviewsTask = (
-                     from r in repo.Reviews
-                     where r.Reviewer.UserName == reviewerName
-                     select r
-                     ).ToListAsync<Review>();
-                 reviews = await reviewsTask;
-
-                /* 
-                // A more compact version of the same thing:
-                reviews = await ((
-                    from r in repo.Reviews
-                    where r.Reviewer.UserName == reviewerName
-                    select r
-                    ).ToListAsync<Review>();
-                */
-
+                reviews = await ReviewerQuery(reviewerName).ToListAsync<Review>();
             }
             // filter by book title
             else if (bookTitle != null)
             {
-                reviews = await (
-                    from r in repo.Reviews
-                    where r.Book.BookTitle == bookTitle
-                    select r
-                    ).ToListAsync<Review>();
+                reviews = await TitleQuery(bookTitle).ToListAsync<Review>();
             }
             // filter by review date
             else if (reviewDate != null)
             {
-                reviews = await (
-                    from r in repo.Reviews
-                    where r.ReviewDate.Date == DateTime.Parse(reviewDate).Date
-                    select r
-                    ).ToListAsync<Review>();
+                reviews = await DateQuery(reviewDate).ToListAsync<Review>();
             }
-            // Both query parameters are null
+            // All query parameters are null
             else
             {
                 reviews = await repo.Reviews.ToListAsync<Review>();
@@ -68,6 +45,26 @@ namespace BookReviews.Controllers
             return View(reviews);
         }
 
+        public IQueryable<Review> TitleQuery(string bookTitle)
+        {
+            return repo.Reviews
+                .Where(r => r.Book.BookTitle == bookTitle)
+                .Select(r => r);
+        }
+
+        public IQueryable<Review> ReviewerQuery(string reviewerName)
+        {
+            return repo.Reviews
+                .Where(r => r.Reviewer.Name == reviewerName)
+                .Select(r => r);
+        }
+
+        public IQueryable<Review> DateQuery(string reviewDate)
+        {
+            return repo.Reviews
+                   .Where(r => r.ReviewDate.Date == DateTime.Parse(reviewDate).Date)
+                   .Select(r => r);
+        }
 
         [Authorize]
         public IActionResult Review()

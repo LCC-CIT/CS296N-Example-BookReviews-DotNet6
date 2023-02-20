@@ -10,7 +10,10 @@ namespace BookReviewTests
     {
         private List<Review> reviews = new List<Review>();
 
-        IQueryable<Review> IReviewRepository.Reviews => throw new System.NotImplementedException();
+        public IQueryable<Review> Reviews
+        {
+            get { return reviews.AsQueryable<Review>(); }
+        }
 
         public Review GetReviewById(int id)
         {
