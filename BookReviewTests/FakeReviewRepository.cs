@@ -1,5 +1,6 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +9,13 @@ namespace BookReviewTests
 {
     public class FakeReviewRepository : IReviewRepository
     {
+
         private List<Review> reviews = new List<Review>();
+ 
 
         public IQueryable<Review> Reviews
         {
-            get { return reviews.AsQueryable<Review>(); }
+            get { return (IQueryable<Review>)reviews.AsQueryable<Review>().AsAsyncEnumerable(); }
         }
 
         public Review GetReviewById(int id)
