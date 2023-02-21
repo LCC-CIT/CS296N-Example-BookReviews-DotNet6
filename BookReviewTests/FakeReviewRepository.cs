@@ -1,9 +1,11 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestDoubles;
 
 namespace BookReviewTests
 {
@@ -11,11 +13,14 @@ namespace BookReviewTests
     {
 
         private List<Review> reviews = new List<Review>();
- 
+
 
         public IQueryable<Review> Reviews
         {
-            get { return (IQueryable<Review>)reviews.AsQueryable<Review>().AsAsyncEnumerable(); }
+            get
+            {
+                return new InMemoryAsyncQueryable<Review>(reviews);
+            }
         }
 
         public Review GetReviewById(int id)

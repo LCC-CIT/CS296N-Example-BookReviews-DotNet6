@@ -10,8 +10,6 @@ using System.Reflection;
 namespace FakeDbAsync
 {
 
-
-
     internal class AsyncQueryProvider<TEntity> : IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
