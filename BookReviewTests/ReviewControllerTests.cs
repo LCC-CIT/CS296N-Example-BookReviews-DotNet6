@@ -51,21 +51,21 @@ namespace BookReviewTests
         [Fact]
         public void FilterByTitleTest()
         {
-            // I'm just testing the query, not the controller method, because the query does all the work.
             // Test to see if only reviews with the selected title are returned 
 
             // Arrange
-            var reviews = new List<Review>();
+            // Done in the constructor
+
             // We don't need need to add all the properties to the models since we aren't testing that.
             var review1 = new Review() { Book = new Book { BookTitle = "Book 1" } };
-            reviews.Add(review1);
-            reviews.Add(review1);
+            repo.StoreReviewAsync(review1).Wait();
+            repo.StoreReviewAsync(review1).Wait();
             var review2 = new Review() { Book = new Book { BookTitle = "Book 2" } };
-            reviews.Add(review2);
-            reviews.Add(review2);
+            repo.StoreReviewAsync(review2).Wait();
+            repo.StoreReviewAsync(review2).Wait();
             var review3 = new Review() { Book = new Book { BookTitle = "Book 3" } };
-            reviews.Add(review3);
-            reviews.Add(review3);
+            repo.StoreReviewAsync(review3).Wait();
+            repo.StoreReviewAsync(review3).Wait();
 
             var controller = new ReviewController(repo, null);  // I don't need a UserManager
 

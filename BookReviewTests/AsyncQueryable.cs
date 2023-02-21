@@ -49,12 +49,12 @@ namespace TestDoubles
             return this;
         }
 
-        public IAsyncEnumerator<T> GetAsyncEnumerator() => new InMemoryDbAsyncEnumerator<T>(GetEnumerator());
+        public IAsyncEnumerator<T> GetAsyncEnumerator() => new InMemoryAsyncEnumerator<T>(GetEnumerator());
 
-
+        // TODO: Implement cancellation token
         public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return new InMemoryAsyncEnumerator<T>(GetEnumerator());
         }
     }
 
@@ -114,14 +114,14 @@ namespace TestDoubles
 
 
     /******************************************
-            InMemoryDbAsyncEnumerator<T>     
+            InMemoryAsyncEnumerator<T>     
      ******************************************/
 
-    internal class InMemoryDbAsyncEnumerator<T> : IAsyncEnumerator<T>
+    internal class InMemoryAsyncEnumerator<T> : IAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _enumerator;
 
-        public InMemoryDbAsyncEnumerator(IEnumerator<T> enumerator)
+        public InMemoryAsyncEnumerator(IEnumerator<T> enumerator)
         {
             _enumerator = enumerator;
         }
@@ -134,12 +134,12 @@ namespace TestDoubles
 
         public ValueTask<bool> MoveNextAsync()
         {
-            throw new NotImplementedException();
+            return new ValueTask<bool>(Task.FromResult(_enumerator.MoveNext()));
         }
 
         public ValueTask DisposeAsync()
         {
-            throw new NotImplementedException();
+            return new ValueTask(Task.CompletedTask);
         }
 
         public T Current => _enumerator.Current;
