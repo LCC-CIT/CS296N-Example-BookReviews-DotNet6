@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BookReviews.Controllers;
@@ -79,44 +80,15 @@ namespace BookReviewTests
             Assert.Equal(filteredReviews[1].Book.BookTitle, review2.Book.BookTitle);
         }
 
-        /*
-        [Fact]
-        public void FilterByTitleTest()
-        {
-            // I'm just testing the query, not the controller method, because the query does all the work.
-            // Test to see if only reviews with the selected title are returned 
-
-            // Arrange
-            var reviews = new List<Review>();
-            // We don't need need to add all the properties to the models since we aren't testing that.
-            var review1 = new Review() { Book = new Book { BookTitle = "Book 1" } };
-            reviews.Add(review1);
-            reviews.Add(review1);
-            var review2 = new Review() { Book = new Book { BookTitle = "Book 2" } };
-            reviews.Add(review2);
-            reviews.Add(review2);
-            var review3 = new Review() { Book = new Book { BookTitle = "Book 3" } };
-            reviews.Add(review3);
-            reviews.Add(review3);
-
-            var controller = new ReviewController(repo, null);  // I don't need a UserManager
-
-            // Act
-            var filteredReviews = controller.TitleQuery(review2.Book.BookTitle).ToList<Review>();
-
-            // Assert
-            Assert.Equal(2, filteredReviews.Count);
-            Assert.Equal(filteredReviews[0].Book.BookTitle, review2.Book.BookTitle);
-            Assert.Equal(filteredReviews[1].Book.BookTitle, review2.Book.BookTitle);
-        }
-
+        
         [Fact]
         public void FilterByReviewerTest()
         {
             // Test to see if only reviews with the selected title are returned 
 
             // Arrange
-            var reviews = new List<Review>();
+            // Done in the constructor
+
             // We don't need need to add all the properties to the models since we aren't testing that.
             var review1 = new Review() { Reviewer = new AppUser() { Name = "Reviewer 1" }, Book = new Book() };
             repo.StoreReviewAsync(review1);
@@ -131,16 +103,45 @@ namespace BookReviewTests
             var controller = new ReviewController(repo, null);  // I don't need a UserManager
 
             // Act
-            var filteredReviews = controller.ReviewerQuery(review2.Reviewer.Name).ToList<Review>();
+            var filteredReviewsView = controller.Index(review2.Reviewer.Name, null, null).Result as ViewResult;
+            List<Review> filteredReviews = filteredReviewsView.Model as List<Review>;
 
             // Assert
             Assert.Equal(2, filteredReviews.Count);
             Assert.Equal(filteredReviews[0].Reviewer.Name, review2.Reviewer.Name);
             Assert.Equal(filteredReviews[1].Reviewer.Name, review2.Reviewer.Name);
         }
-        */
 
-        // Note: The Index method is not being tested because it doesn't do much
-        // processing; it just calls another method on the repository.
+        [Fact]
+        public void FilterByDateTest()
+        {
+            // Test to see if only reviews with the selected title are returned 
+
+            // Arrange
+            // Done in the constructor
+
+            // We don't need need to add all the properties to the models since we aren't testing that.
+            var review1 = new Review() { Book = new Book(), ReviewDate = DateTime.Parse("01/01/2020") };
+            repo.StoreReviewAsync(review1);
+            repo.StoreReviewAsync(review1);
+            var review2 = new Review() { Book = new Book(), ReviewDate = DateTime.Parse("06/15/2021") };
+            repo.StoreReviewAsync(review2);
+            repo.StoreReviewAsync(review2);
+            var review3 = new Review() { Book = new Book(), ReviewDate = DateTime.Parse("12/31/2022") };
+            repo.StoreReviewAsync(review3);
+            repo.StoreReviewAsync(review3);
+
+            var controller = new ReviewController(repo, null);  // I don't need a UserManager
+
+            // Act
+            var filteredReviewsView = controller.Index(null, null, review2.ReviewDate.ToShortDateString()).Result as ViewResult;
+            List<Review> filteredReviews = filteredReviewsView.Model as List<Review>;
+
+            // Assert
+            Assert.Equal(2, filteredReviews.Count);
+            Assert.Equal(filteredReviews[0].ReviewDate, review2.ReviewDate);
+            Assert.Equal(filteredReviews[1].ReviewDate, review2.ReviewDate);
+        }
+
     }
 }

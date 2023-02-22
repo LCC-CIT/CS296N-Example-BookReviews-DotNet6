@@ -25,6 +25,8 @@ namespace BookReviews.Controllers
             // if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = model.Username };
+                // Temporary assignment of user's real name (screen name?)
+                user.Name = user.UserName; // TODO: Add a field to the registration form for real name
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
