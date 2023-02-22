@@ -45,8 +45,12 @@ Enter a book title:
         <p>
             <strong class="m-3">Title:</strong>
             @review.Book.BookTitle<br />
-            <strong class="m-3">Author:</strong>
-            @review.Book.AuthorName<br />
+            <strong class="m-3">By:</strong>
+            @foreach(Author author in review.Book.Authors)
+            {
+                @author<span>, &nbsp;</span>
+            }
+            <br />
             <strong class="m-3">Reviewer:</strong>
             @review.Reviewer.Name<br />
             <strong class="m-3">Review Date:</strong>

@@ -11,9 +11,8 @@ namespace BookReviews.Data
             {
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
-                Book book = new Book { AuthorName = "Samuel Shallabarger",
-                    BookTitle = "Prince of Foxes"
-                };
+                Book book = new Book { BookTitle = "Prince of Foxes" };
+                book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
                 context.Books.Add(book);
                 context.SaveChanges();
 
@@ -40,26 +39,22 @@ namespace BookReviews.Data
                 context.SaveChanges();
 
                 AppUser brianBird = userManager.FindByNameAsync("BrianBird").Result;
+                book = new Book { BookTitle = "Virgil Wander" };
+                book.Authors.Add(new Author { Name = "Lief Enger" });
                 review = new Review
                 {
-                    Book = new Book
-                    {
-                        BookTitle = "Virgil Wander",
-                        AuthorName = "Lief Enger"
-                    },
+                    Book = book,
                     ReviewText = "Wonderful book, written by a distant cousin of mine.",
                     Reviewer = brianBird,
                     ReviewDate = DateTime.Parse("11/30/2020")
                 };
                 context.Reviews.Add(review);
 
+                book = new Book { BookTitle = "Ivanho" };
+                book.Authors.Add(new Author { Name = "Sir Walter Scott" });
                 review = new Review
                 {
-                    Book = new Book
-                    {
-                        BookTitle = "Ivanho",
-                        AuthorName = "Sir Walter Scott"
-                    },
+                    Book = book,
                     ReviewText = "It was a little hard going at first, but then I loved it!",
                     Reviewer =brianBird,
                     ReviewDate = DateTime.Parse("11/1/2020")
