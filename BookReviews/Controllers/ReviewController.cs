@@ -45,21 +45,21 @@ namespace BookReviews.Controllers
             return View(reviews);
         }
 
-        public IQueryable<Review> TitleQuery(string bookTitle)
+        private IQueryable<Review> TitleQuery(string bookTitle)
         {
             return repo.Reviews
                 .Where(r => r.Book.BookTitle == bookTitle)
                 .Select(r => r);
         }
 
-        public IQueryable<Review> ReviewerQuery(string reviewerName)
+        private IQueryable<Review> ReviewerQuery(string reviewerName)
         {
             return repo.Reviews
                 .Where(r => r.Reviewer.Name == reviewerName)
                 .Select(r => r);
         }
 
-        public IQueryable<Review> DateQuery(string reviewDate)
+        private IQueryable<Review> DateQuery(string reviewDate)
         {
             return repo.Reviews
                    .Where(r => r.ReviewDate.Date == DateTime.Parse(reviewDate).Date)
