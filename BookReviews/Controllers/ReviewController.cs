@@ -19,8 +19,8 @@ namespace BookReviews.Controllers
 
         public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
-            List<Review> reviews;
-
+            List<Review> reviews = new();
+            /*
             // filter by reviewer name
             if (reviewerName != null)
             {
@@ -38,32 +38,21 @@ namespace BookReviews.Controllers
             }
             // All query parameters are null
             else
+            */
             {
-                reviews = await repo.Reviews.ToListAsync<Review>();
+                // Get all the books, then get all the reviews and put them in a list
+                // TODO: Get a queryable of the books instead of a list
+                var books = await repo.Books.ToListAsync<Book>();
+                foreach (Book book in books)
+                {
+                    foreach (Review review in book.Reviews)
+                    {
+                        reviews.Add(review);
+                    }
+                }
             }
 
             return View(reviews);
-        }
-
-        private IQueryable<Review> TitleQuery(string bookTitle)
-        {
-            return repo.Reviews
-                .Where(r => r.Book.BookTitle == bookTitle)
-                .Select(r => r);
-        }
-
-        private IQueryable<Review> ReviewerQuery(string reviewerName)
-        {
-            return repo.Reviews
-                .Where(r => r.Reviewer.Name == reviewerName)
-                .Select(r => r);
-        }
-
-        private IQueryable<Review> DateQuery(string reviewDate)
-        {
-            return repo.Reviews
-                   .Where(r => r.ReviewDate.Date == DateTime.Parse(reviewDate).Date)
-                   .Select(r => r);
         }
 
         [Authorize]
@@ -76,13 +65,15 @@ namespace BookReviews.Controllers
         [HttpPost]
         public async Task<IActionResult> Review(Review model)
         {
+            /*
+            // TODO: Refactor to use Book model as root
             // Get the AppUser object for the currently logged in user
             // For unit testing, UserManager will be null so accomodate that
             if (userManager != null)
             {
                 model.Reviewer = await userManager.GetUserAsync(User);
             }
-            if (await repo.StoreReviewAsync(model) > 0)
+            if (await repo.StoreBookAsync(model) > 0)
             {
                 return RedirectToAction("Index", new { reviewId = model.ReviewId });
             }
@@ -90,7 +81,8 @@ namespace BookReviews.Controllers
             {
                 return View();  // TODO: Send an error message to the view
             }
-
+            */
+            return View();
         }
     }
 }

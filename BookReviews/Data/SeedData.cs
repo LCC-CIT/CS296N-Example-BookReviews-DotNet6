@@ -7,7 +7,8 @@ namespace BookReviews.Data
     {
      public static void Seed(ApplicationDbContext context, IServiceProvider provider)
         {
-            if (!context.Reviews.Any())  // this is to prevent duplicate data from being added
+            
+            if (!context.Books.Any())  // this is to prevent duplicate data from being added
             {
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
@@ -19,13 +20,14 @@ namespace BookReviews.Data
                 AppUser emmaWatson = userManager.FindByNameAsync("EmmaWatson").Result;
                 Review review = new Review
                 {
-                    Book = book,
                     ReviewText = "Great book, a must read!",
                     Reviewer = emmaWatson,
                     ReviewDate = DateTime.Parse("11/1/2020")
                 };
-                context.Reviews.Add(review);  // queues up the review to be added to the DB
-
+                book.Reviews.Add(review);
+                context.Books.Add(book);  // queues up the review to be added to the DB
+                
+                /*
                 AppUser danielRadcliffe = userManager.FindByNameAsync("DanielRadcliffe").Result;
                 review = new Review
                 {
@@ -60,10 +62,11 @@ namespace BookReviews.Data
                     ReviewDate = DateTime.Parse("11/1/2020")
                 };
                 context.Reviews.Add(review);
-
+                */
                 context.SaveChanges(); // stores all the reviews in the DB
             
-            }
+            } 
         }
+            
     }
 }

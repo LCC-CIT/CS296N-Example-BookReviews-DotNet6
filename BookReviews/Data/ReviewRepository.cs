@@ -12,32 +12,34 @@ namespace BookReviews.Data
             context = appDbContext;
         }
 
-        public IQueryable<Review> Reviews
+        public IQueryable<Book> Books
         {
             get
             {
                 // Get all the Review objects in the Reviews DbSet
                 // and include the Reivewer object in each Review.
-                return context.Reviews.Include(review => review.Reviewer)
-                .Include(review => review.Book);
+                return context.Books.Include(b => b.Authors)
+                .Include(b => b.Reviews)
+                .ThenInclude(r => r.Reviewer);
+                // TODO: Include Comments                    
             }
+        }
+
+        public IQueryable<Review> Reviews => throw new NotImplementedException();
+
+        public Book GetBookById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Review GetReviewById(int id)
         {
-            var review = context.Reviews
-              .Include(review => review.Reviewer) // returns Reivew.AppUser object
-              .Include(review => review.Book) // returns Review.Book object
-              .Where(review => review.ReviewId == id)
-              .SingleOrDefault();
-            return review;
+            throw new NotImplementedException();
         }
 
-        public async Task<int> StoreReviewAsync(Review model)
+        public async Task<int> StoreBookAsync(Book model)
         {
-            model.ReviewDate = DateTime.Now;
-            context.Reviews.Add(model);
-           // return await context.SaveChangesAsync();
+            context.Books.Add(model);
             Task<int> task = context.SaveChangesAsync();
             int result = await task;
             return result;
