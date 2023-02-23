@@ -46,9 +46,14 @@ Enter a book title:
             <strong class="m-3">Title:</strong>
             @review.Book.BookTitle<br />
             <strong class="m-3">By:</strong>
-            @foreach(Author author in review.Book.Authors)
+            @* List all the book authors, with a comma and space between if there is more than one*@
+            @for(int i = 0; i < review.Book.Authors.Count; i++)
             {
-                @author.Name<span>, &nbsp;</span>
+                if (i > 0)
+                {
+                    <span>, &nbsp;</span>
+                }
+                @review.Book.Authors[i].Name
             }
             <br />
             <strong class="m-3">Reviewer:</strong>
