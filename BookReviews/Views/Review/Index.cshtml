@@ -1,4 +1,4 @@
-﻿@model List<Review>
+﻿@model List<ReviewVM>
 @{
     ViewData["Title"] = "Reviews";
 }
@@ -40,7 +40,7 @@ Enter a book title:
 
 <div class="text-center">
     <h1 class="display-4">Reviews</h1>
-    @foreach (Review review in Model)
+    @foreach (ReviewVM review in Model)
     {
         <p>
             <strong class="m-3">Title:</strong>
@@ -48,7 +48,7 @@ Enter a book title:
             <strong class="m-3">By:</strong>
             @foreach(Author author in review.Book.Authors)
             {
-                @author<span>, &nbsp;</span>
+                @author.Name<span>, &nbsp;</span>
             }
             <br />
             <strong class="m-3">Reviewer:</strong>

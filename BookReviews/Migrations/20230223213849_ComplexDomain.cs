@@ -10,40 +10,9 @@ namespace BookReviews.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_AspNetUsers_ReviewerId",
-                table: "Reviews");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_Books_BookId",
-                table: "Reviews");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Reviews",
-                table: "Reviews");
-
             migrationBuilder.DropColumn(
                 name: "AuthorName",
                 table: "Books");
-
-            migrationBuilder.RenameTable(
-                name: "Reviews",
-                newName: "Review");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Reviews_ReviewerId",
-                table: "Review",
-                newName: "IX_Review_ReviewerId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Reviews_BookId",
-                table: "Review",
-                newName: "IX_Review_BookId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Review",
-                table: "Review",
-                column: "ReviewId");
 
             migrationBuilder.CreateTable(
                 name: "Authors",
@@ -77,7 +46,7 @@ namespace BookReviews.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserNameId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ReviewId = table.Column<int>(type: "int", nullable: false)
+                    ReviewId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,11 +58,10 @@ namespace BookReviews.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Review_ReviewId",
+                        name: "FK_Comment_Reviews_ReviewId",
                         column: x => x.ReviewId,
-                        principalTable: "Review",
-                        principalColumn: "ReviewId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Reviews",
+                        principalColumn: "ReviewId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -111,57 +79,15 @@ namespace BookReviews.Migrations
                 name: "IX_Comment_UserNameId",
                 table: "Comment",
                 column: "UserNameId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Review_AspNetUsers_ReviewerId",
-                table: "Review",
-                column: "ReviewerId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Review_Books_BookId",
-                table: "Review",
-                column: "BookId",
-                principalTable: "Books",
-                principalColumn: "BookId",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Review_AspNetUsers_ReviewerId",
-                table: "Review");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Review_Books_BookId",
-                table: "Review");
-
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Comment");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Review",
-                table: "Review");
-
-            migrationBuilder.RenameTable(
-                name: "Review",
-                newName: "Reviews");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Review_ReviewerId",
-                table: "Reviews",
-                newName: "IX_Reviews_ReviewerId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Review_BookId",
-                table: "Reviews",
-                newName: "IX_Reviews_BookId");
 
             migrationBuilder.AddColumn<string>(
                 name: "AuthorName",
@@ -169,27 +95,6 @@ namespace BookReviews.Migrations
                 type: "longtext",
                 nullable: false)
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Reviews",
-                table: "Reviews",
-                column: "ReviewId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_AspNetUsers_ReviewerId",
-                table: "Reviews",
-                column: "ReviewerId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_Books_BookId",
-                table: "Reviews",
-                column: "BookId",
-                principalTable: "Books",
-                principalColumn: "BookId",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }

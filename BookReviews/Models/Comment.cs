@@ -7,7 +7,7 @@ namespace BookReviews.Models
         public string CommentText { get; set; }
         public AppUser UserName { get; set; }
 
-        public int ReviewId { get; set; } // Composition (a comment is part of a review.)
+       // public int ReviewId { get; set; } // Composition (a comment is part of a review.)
     }
 }
 

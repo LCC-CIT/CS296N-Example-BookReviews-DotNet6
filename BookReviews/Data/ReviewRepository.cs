@@ -16,12 +16,14 @@ namespace BookReviews.Data
         {
             get
             {
-                // Get all the Review objects in the Reviews DbSet
-                // and include the Reivewer object in each Review.
+                // Get all the Book objects in the Books DbSet
+                // and include the related data objects.
                 return context.Books.Include(b => b.Authors)
                 .Include(b => b.Reviews)
-                .ThenInclude(r => r.Reviewer);
-                // TODO: Include Comments                    
+                .ThenInclude(r => r.Reviewer)
+                // Include Reviews again so that we can also include comemnts (Reviews won't be duplicated)
+                .Include(b => b.Reviews)
+                .ThenInclude(r => r.Comments);
             }
         }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookReviews.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230223193707_ComplexDomain")]
+    [Migration("20230223213849_ComplexDomain")]
     partial class ComplexDomain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,7 @@ namespace BookReviews.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ReviewId")
+                    b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserNameId")
@@ -120,7 +120,7 @@ namespace BookReviews.Migrations
 
                     b.HasIndex("ReviewerId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -346,9 +346,7 @@ namespace BookReviews.Migrations
                 {
                     b.HasOne("BookReviews.Models.Review", null)
                         .WithMany("Comments")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReviewId");
 
                     b.HasOne("BookReviews.Models.AppUser", "UserName")
                         .WithMany()
@@ -361,7 +359,7 @@ namespace BookReviews.Migrations
 
             modelBuilder.Entity("BookReviews.Models.Review", b =>
                 {
-                    b.HasOne("BookReviews.Models.Book", "Book")
+                    b.HasOne("BookReviews.Models.Book", null)
                         .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,8 +370,6 @@ namespace BookReviews.Migrations
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
 
                     b.Navigation("Reviewer");
                 });

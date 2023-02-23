@@ -19,7 +19,7 @@ namespace BookReviews.Controllers
 
         public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
-            List<Review> reviews = new();
+            List<ReviewVM> reviews = new();
             /*
             // filter by reviewer name
             if (reviewerName != null)
@@ -47,7 +47,11 @@ namespace BookReviews.Controllers
                 {
                     foreach (Review review in book.Reviews)
                     {
-                        reviews.Add(review);
+                        // We need to add Book and all the Review properties to the ReviewVM.
+                        ReviewVM viewModel = new() { Book= book, Comments = review.Comments,
+                            ReviewDate = review.ReviewDate, Reviewer = review.Reviewer, 
+                            ReviewText = review.ReviewText};
+                        reviews.Add(viewModel);
                     }
                 }
             }

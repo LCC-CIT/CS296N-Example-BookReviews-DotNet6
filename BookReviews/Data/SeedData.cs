@@ -14,8 +14,6 @@ namespace BookReviews.Data
 
                 Book book = new Book { BookTitle = "Prince of Foxes" };
                 book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
-                context.Books.Add(book);
-                context.SaveChanges();
 
                 AppUser emmaWatson = userManager.FindByNameAsync("EmmaWatson").Result;
                 Review review = new Review
@@ -24,9 +22,12 @@ namespace BookReviews.Data
                     Reviewer = emmaWatson,
                     ReviewDate = DateTime.Parse("11/1/2020")
                 };
+              //  context.Reviews.Add(review); 
+              //  context.SaveChanges(); // Stores the review and gives it an ID
+
                 book.Reviews.Add(review);
-                context.Books.Add(book);  // queues up the review to be added to the DB
-                
+                context.Books.Add(book);  
+                context.SaveChanges();  // Stores the book with review
                 /*
                 AppUser danielRadcliffe = userManager.FindByNameAsync("DanielRadcliffe").Result;
                 review = new Review
