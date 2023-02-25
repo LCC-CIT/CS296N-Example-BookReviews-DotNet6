@@ -19,26 +19,35 @@ namespace BookReviews.Controllers
 
         public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
-            List<ReviewVM> reviews = new();
-            /*
-            // filter by reviewer name
-            if (reviewerName != null)
-            {
-                reviews = await ReviewerQuery(reviewerName).ToListAsync<Review>();
-            }
+            List<ReviewVM> reviewVMs = new();
+            List<Review> reviews = new();
+
             // filter by book title
-            else if (bookTitle != null)
+            if (bookTitle != null)
             {
-                reviews = await TitleQuery(bookTitle).ToListAsync<Review>();
+                Book book = repo.Books
+                    .Where(b => b.BookTitle == bookTitle)
+                    .Single<Book>();
+
+                reviews = await  repo.Books
+                .Where(b => b.BookTitle == bookTitle)
+                .SelectMany(b => b.Reviews).ToListAsync<Review>();
+
+                // Put the review data into the view model
+                foreach (Review review in book.Reviews)
+                {
+                    ReviewVM viewModel = new()
+                    {
+                        Book = book,
+                        Comments = review.Comments,
+                        ReviewDate = review.ReviewDate,
+                        Reviewer = review.Reviewer,
+                        ReviewText = review.ReviewText
+                    };
+                    reviewVMs.Add(viewModel);
+                }
             }
-            // filter by review date
-            else if (reviewDate != null)
-            {
-                reviews = await DateQuery(reviewDate).ToListAsync<Review>();
-            }
-            // All query parameters are null
             else
-            */
             {
                 // Get all the books, then get all the reviews and put them in a list
                 // TODO: Get a queryable of the books instead of a list
@@ -51,13 +60,14 @@ namespace BookReviews.Controllers
                         ReviewVM viewModel = new() { Book= book, Comments = review.Comments,
                             ReviewDate = review.ReviewDate, Reviewer = review.Reviewer, 
                             ReviewText = review.ReviewText};
-                        reviews.Add(viewModel);
+                        reviewVMs.Add(viewModel);
                     }
                 }
             }
 
-            return View(reviews);
+            return View(reviewVMs);
         }
+
 
         [Authorize]
         public IActionResult Review()
