@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Review\Index.cshtml" />
+    <Content Remove="Views\Review\Review.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pomelo.EntityFrameworkCore.MySql" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite.Core" />
   </ItemGroup>
@@ -28,6 +33,9 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Review\" />
   </ItemGroup>
 
 </Project>
