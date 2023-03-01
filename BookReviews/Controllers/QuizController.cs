@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BookReviews.Controllers
 {
-    public class BookController : Controller
+    public class QuizController : Controller
     {
         public IActionResult Index()
         {
