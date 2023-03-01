@@ -36,6 +36,7 @@ namespace BookReviews.Controllers
             }
 
             var book = await _context.Books
+                .Include(b => b.Authors)
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)
             {
@@ -56,10 +57,15 @@ namespace BookReviews.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] string[] authors, Book book)
         {
             if (ModelState.IsValid)
             {
+                foreach(string name in authors)
+                {
+                    var author = new Author { Name = name };
+                    book.Authors.Add(author);
+                }
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
