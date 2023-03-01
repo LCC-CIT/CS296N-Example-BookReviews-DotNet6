@@ -10,9 +10,29 @@ namespace BookReviews.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews");
+
             migrationBuilder.DropColumn(
                 name: "AuthorName",
                 table: "Books");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "BookId",
+                table: "Reviews",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.AlterColumn<ulong>(
+                name: "Isbn",
+                table: "Books",
+                type: "bigint unsigned",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "int");
 
             migrationBuilder.CreateTable(
                 name: "Authors",
@@ -44,7 +64,7 @@ namespace BookReviews.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CommentText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserNameId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    CommentorId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ReviewId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -52,8 +72,8 @@ namespace BookReviews.Migrations
                 {
                     table.PrimaryKey("PK_Comment", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserNameId",
-                        column: x => x.UserNameId,
+                        name: "FK_Comment_AspNetUsers_CommentorId",
+                        column: x => x.CommentorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -71,23 +91,52 @@ namespace BookReviews.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_CommentorId",
+                table: "Comment",
+                column: "CommentorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_ReviewId",
                 table: "Comment",
                 column: "ReviewId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserNameId",
-                table: "Comment",
-                column: "UserNameId");
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews",
+                column: "BookId",
+                principalTable: "Books",
+                principalColumn: "BookId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews");
+
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Comment");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "BookId",
+                table: "Reviews",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Isbn",
+                table: "Books",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(ulong),
+                oldType: "bigint unsigned");
 
             migrationBuilder.AddColumn<string>(
                 name: "AuthorName",
@@ -95,6 +144,14 @@ namespace BookReviews.Migrations
                 type: "longtext",
                 nullable: false)
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews",
+                column: "BookId",
+                principalTable: "Books",
+                principalColumn: "BookId",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

@@ -52,8 +52,8 @@ namespace BookReviews.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Isbn")
-                        .HasColumnType("int");
+                    b.Property<ulong>("Isbn")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<DateTime>("PubDate")
                         .HasColumnType("datetime(6)");
@@ -76,18 +76,18 @@ namespace BookReviews.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserNameId")
+                    b.Property<string>("CommentorId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.HasKey("CommentId");
 
-                    b.HasIndex("ReviewId");
+                    b.HasIndex("CommentorId");
 
-                    b.HasIndex("UserNameId");
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("Comment");
                 });
@@ -98,7 +98,7 @@ namespace BookReviews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
@@ -342,26 +342,24 @@ namespace BookReviews.Migrations
 
             modelBuilder.Entity("BookReviews.Models.Comment", b =>
                 {
+                    b.HasOne("BookReviews.Models.AppUser", "Commentor")
+                        .WithMany()
+                        .HasForeignKey("CommentorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookReviews.Models.Review", null)
                         .WithMany("Comments")
                         .HasForeignKey("ReviewId");
 
-                    b.HasOne("BookReviews.Models.AppUser", "UserName")
-                        .WithMany()
-                        .HasForeignKey("UserNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserName");
+                    b.Navigation("Commentor");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Review", b =>
                 {
                     b.HasOne("BookReviews.Models.Book", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookId");
 
                     b.HasOne("BookReviews.Models.AppUser", "Reviewer")
                         .WithMany()
