@@ -1,12 +1,16 @@
-﻿@model Review
+﻿@model ReviewVM
 
 <h1 class="display-4">Add a Review</h1>
 <form method="post">
     <label asp-for="Book.BookTitle">Title</label>
     <input asp-for="Book.BookTitle" /><br />
 
-    <label asp-for="Book.AuthorName">Author</label>
-    <input asp-for="Book.AuthorName" /><br />
+    <label>Authors</label>
+    @* Repeating the same name attribute will create an array*@
+    <input name = "author" />&nbsp;
+    <input name = "author" />&nbsp;
+    <input name = "author" />
+    <br />
 
     <label asp-for="ReviewText">Review</label>
     <textarea asp-for="ReviewText"></textarea><br />

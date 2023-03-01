@@ -12,31 +12,32 @@ namespace BookReviewTests
     public class FakeReviewRepository : IReviewRepository
     {
 
-        private List<Review> reviews = new List<Review>();
+        private List<Book> books = new List<Book>();
 
 
-        public IQueryable<Review> Reviews
+ 
+
+        public IQueryable<Book> Books => throw new System.NotImplementedException();
+
+        public IQueryable<Review> Reviews => throw new System.NotImplementedException();
+
+        public Book GetBookById(int id)
         {
-            get
-            {
-                return new InMemoryAsyncQueryable<Review>(reviews);
-            }
+            throw new System.NotImplementedException();
         }
 
         public Review GetReviewById(int id)
         {
-            Review review = reviews.Find(r => r.ReviewId == id);
-
-            return review;
+            throw new System.NotImplementedException();
         }
 
-        public async Task<int> StoreReviewAsync(Review model)
+        public async Task<int> StoreBookAsync(Book model)
         {
             int status = 0;
-            if (model != null && model.Book != null)
+            if (model != null)
             {
-                model.ReviewId = reviews.Count + 1;
-                reviews.Add(model);
+                model.BookId = books.Count + 1;
+                books.Add(model);
                 status = 1;    
             }
             return status;
