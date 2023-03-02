@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9F2BEB8-AD28-41DC-B7C6-F7D01CCBBF6C}"
+	ProjectSection(SolutionItems) = preProject
 		Docs\BookReviewsDomainModel.uxf = Docs\BookReviewsDomainModel.uxf
 		Docs\BookReviewsDomainModel.pdf = Docs\BookReviewsDomainModel.pdf
 	EndProjectSection
@@ -35,5 +39,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFAE94F8-D616-4DEA-95B8-84EDC658F661}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A9F2BEB8-AD28-41DC-B7C6-F7D01CCBBF6C} = {EAACC5CA-B26F-4681-B8ED-D6C4D607B200}
 	EndGlobalSection
 EndGlobal
