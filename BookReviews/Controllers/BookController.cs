@@ -56,10 +56,31 @@ namespace BookReviews.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] string[] Authors, Book book)
         {
             if (ModelState.IsValid)
             {
+                if (Authors != null)
+                {
+                    // Loop through the list of author names from the create form and add them to the book
+                    foreach (string authorName in Authors)
+                    {
+                        var authorObject = await _context.Authors.FirstOrDefaultAsync(a => a.Name == authorName);
+                        // If the author is already in the database add the object to the book
+                        if (authorObject != null)
+                        {
+                            book.Authors.Add(authorObject);
+                        }
+                        // If the author wasn't in the database add them
+                        // and then add the object to the book
+                        else
+                        {
+                            var newAuthor = new Author { Name = authorName };
+                            _context.Add(newAuthor);
+                            book.Authors.Add(newAuthor);
+                        }
+                    }
+                }
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
