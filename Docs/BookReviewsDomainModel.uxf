@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.0.0">
-  <zoom_level>10</zoom_level>
+  <zoom_level>15</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>270</x>
-      <y>590</y>
-      <w>240</w>
-      <h>120</h>
+      <x>345</x>
+      <y>885</y>
+      <w>360</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>Review
 --
@@ -21,10 +21,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>620</x>
-      <y>580</y>
-      <w>270</w>
-      <h>120</h>
+      <x>870</x>
+      <y>870</y>
+      <w>405</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>Comment
 --
@@ -37,24 +37,24 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>640</y>
-      <w>140</w>
-      <h>60</h>
+      <x>690</x>
+      <y>975</y>
+      <w>210</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 m2=0..*
 m1=1
 </panel_attributes>
-    <additional_attributes>10.0;30.0;120.0;30.0</additional_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>330</y>
-      <w>250</w>
-      <h>120</h>
+      <x>825</x>
+      <y>495</y>
+      <w>375</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>AppUser
 --
@@ -66,10 +66,10 @@ m1=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>80</y>
-      <w>270</w>
-      <h>120</h>
+      <x>780</x>
+      <y>120</y>
+      <w>405</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>IdentityUser
 --
@@ -80,10 +80,10 @@ m1=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>680</x>
-      <y>190</y>
-      <w>30</w>
-      <h>160</h>
+      <x>960</x>
+      <y>285</y>
+      <w>45</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
@@ -91,10 +91,10 @@ m1=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>800</x>
-      <y>440</y>
-      <w>40</w>
-      <h>160</h>
+      <x>1065</x>
+      <y>660</y>
+      <w>60</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
 m2=1
@@ -105,10 +105,10 @@ m1=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>440</y>
-      <w>170</w>
-      <h>170</h>
+      <x>645</x>
+      <y>660</y>
+      <w>255</w>
+      <h>255</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
 m2=1
@@ -120,10 +120,10 @@ m1=1
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>40</x>
+      <x>0</x>
       <y>0</y>
-      <w>470</w>
-      <h>50</h>
+      <w>705</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>Book Reviews Domain Model by Brian Bird, 2023
 
@@ -133,23 +133,23 @@ m1=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>40</x>
-      <y>130</y>
-      <w>890</w>
-      <h>660</h>
+      <x>0</x>
+      <y>210</y>
+      <w>1335</w>
+      <h>975</h>
     </coordinates>
     <panel_attributes>lt=.
 r1=Aggregate - Root Entity is Book
 </panel_attributes>
-    <additional_attributes>420.0;30.0;10.0;30.0;10.0;640.0;870.0;640.0;870.0;370.0;420.0;370.0;420.0;30.0</additional_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0;10.0;630.0;870.0;630.0;870.0;360.0;420.0;360.0;420.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>60</x>
-      <y>810</y>
-      <w>610</w>
-      <h>130</h>
+      <x>30</x>
+      <y>1215</y>
+      <w>915</w>
+      <h>195</h>
     </coordinates>
     <panel_attributes>Determination of composition vs. aggregation
 
@@ -163,10 +163,10 @@ AppUser objects aren't deleted with review or comment objects.
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>190</y>
-      <w>270</w>
-      <h>180</h>
+      <x>90</x>
+      <y>285</y>
+      <w>405</w>
+      <h>270</h>
     </coordinates>
     <panel_attributes>Book
 --
@@ -182,10 +182,10 @@ AppUser objects aren't deleted with review or comment objects.
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>350</x>
-      <y>360</y>
-      <w>40</w>
-      <h>250</h>
+      <x>465</x>
+      <y>540</y>
+      <w>60</w>
+      <h>375</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 m2=1
@@ -196,10 +196,10 @@ m1=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>450</y>
-      <w>220</w>
-      <h>120</h>
+      <x>60</x>
+      <y>675</y>
+      <w>330</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>Author
 --
@@ -212,10 +212,10 @@ m1=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>200</x>
-      <y>360</y>
-      <w>60</w>
-      <h>110</h>
+      <x>240</x>
+      <y>540</y>
+      <w>90</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
