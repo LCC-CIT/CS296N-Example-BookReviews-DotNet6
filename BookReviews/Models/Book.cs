@@ -13,10 +13,10 @@ namespace BookReviews.Models
         public string? Publisher { get; set; }
         public DateTime PubDate { get; set; }
 
-        public List<Author> Authors
+        public List<Author> Authors     // See nullable FK in Author to prevent cascade delete
         { get { return authorList; } }
 
-        public List<Review> Reviews     // Composition--FK in Review
+        public List<Review> Reviews     // Will be cascade deleted by default
         { get { return reviewList; } }
     }
 }

@@ -36,6 +36,7 @@ namespace BookReviews.Controllers
             }
 
             var book = await _context.Books
+                .Include(b => b.Authors)
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)
             {
@@ -71,12 +72,12 @@ namespace BookReviews.Controllers
                         {
                             book.Authors.Add(authorObject);
                         }
-                        // If the author wasn't in the database add them
+                        // If the author wasn't in the database add them to it
                         // and then add the object to the book
                         else
                         {
                             var newAuthor = new Author { Name = authorName };
-                            _context.Add(newAuthor);
+                            _context.Authors.Add(newAuthor);
                             book.Authors.Add(newAuthor);
                         }
                     }

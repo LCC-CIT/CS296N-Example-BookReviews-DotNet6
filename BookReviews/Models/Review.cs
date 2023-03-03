@@ -2,16 +2,18 @@
 
 namespace BookReviews.Models
 {
-    public class Review
+     public class Review
     {
-        private List<Comment> comments = new();
+        // Review has a shadow non-nullable FK so this will be cascade deleted
+     
+        private List<Comment> comments = new();  // Backing field for Comments
 
         public int ReviewId { get; set; }
         public AppUser Reviewer { get; set; }
         public string ReviewText { get; set; }
         public DateTime ReviewDate { get; set; }
 
-        public ICollection<Comment> Comments { get => comments; }  // Compositioin--FK in comment
-        // public int BookId { get; set; }      // Composition (a review is part of a book.)
+        public ICollection<Comment> Comments { get => comments; }  // Will be cascade deleted-shadow non-nullable FK in Comment
+        
     }
 }
