@@ -154,6 +154,15 @@ namespace BookReviews.Controllers
             var book = await _context.Books.FindAsync(id);
             if (book != null)
             {
+                // Remove Author objects
+                book.Authors.Clear();
+                // Remove Book FKs which removes them from the Author table when saved.
+                // This prevents a referential integrity constraint violation.
+                foreach (var author in book.Authors)
+                {
+                    author.BookId = null;
+                }
+                await _context.SaveChangesAsync();
                 _context.Books.Remove(book);
             }
             
