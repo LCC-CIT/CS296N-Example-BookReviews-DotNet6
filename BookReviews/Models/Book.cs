@@ -16,7 +16,7 @@ namespace BookReviews.Models
         public List<Author> Authors
         { get { return authorList; } }
 
-        public List<Review> Reviews     // Composition--FK in Review
+        public List<Review> Reviews 
         { get { return reviewList; } }
     }
 }

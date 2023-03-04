@@ -151,18 +151,13 @@ namespace BookReviews.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Books'  is null.");
             }
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                .Include(b => b.Authors)
+                .FirstOrDefaultAsync(m => m.BookId == id);
             if (book != null)
             {
-                // Remove Author objects
-                book.Authors.Clear();
-                // Remove Book FKs which removes them from the Author table when saved.
-                // This prevents a referential integrity constraint violation.
-                foreach (var author in book.Authors)
-                {
-                    author.BookId = null;
-                }
-                await _context.SaveChangesAsync();
+                // Remove Author objects to maintain referential integrity
+                book.Authors.Clear();  // BookId FKs will be removed from the Author table
                 _context.Books.Remove(book);
             }
             
