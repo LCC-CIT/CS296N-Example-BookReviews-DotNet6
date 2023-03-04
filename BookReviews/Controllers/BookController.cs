@@ -22,9 +22,9 @@ namespace BookReviews.Controllers
         // GET: Book
         public async Task<IActionResult> Index()
         {
-              return _context.Books != null ? 
-                          View(await _context.Books.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Books'  is null.");
+            return _context.Books != null ?
+                        View(await _context.Books.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Books'  is null.");
         }
 
         // GET: Book/Details/5
@@ -167,19 +167,24 @@ namespace BookReviews.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Books'  is null.");
             }
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                        .Include(b => b.Authors)
+                        .FirstOrDefaultAsync(m => m.BookId == id);
             if (book != null)
             {
+                // Remove Author objects to maintain referential integrity
+                // BookId FKs will be removed from the Author table
+                book.Authors.Clear();
+                await _context.SaveChangesAsync();
                 _context.Books.Remove(book);
             }
-            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-          return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
+            return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
         }
     }
 }

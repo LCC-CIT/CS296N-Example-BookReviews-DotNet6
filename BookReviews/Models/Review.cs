@@ -4,7 +4,7 @@ namespace BookReviews.Models
 {
      public class Review
     {
-        // Review has a shadow non-nullable FK so this will be cascade deleted
+
      
         private List<Comment> comments = new();  // Backing field for Comments
 
@@ -13,7 +13,7 @@ namespace BookReviews.Models
         public string ReviewText { get; set; }
         public DateTime ReviewDate { get; set; }
 
-        public ICollection<Comment> Comments { get => comments; }  // Will be cascade deleted-shadow non-nullable FK in Comment
+        public ICollection<Comment> Comments { get => comments; } 
         
     }
 }
