@@ -19,53 +19,20 @@ namespace BookReviews.Controllers
 
         public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
-            List<ReviewVM> reviewVMs = new();
-            List<Review> reviews = new();
+            var bookQueryable = repo.Books;
+            List<Book> books;
 
             // filter by book title
             if (bookTitle != null)
             {
-                Book book = repo.Books
-                    .Where(b => b.BookTitle == bookTitle)
-                    .Single<Book>();
-
-                reviews = await  repo.Books
-                .Where(b => b.BookTitle == bookTitle)
-                .SelectMany(b => b.Reviews).ToListAsync<Review>();
-
-                // Put the review data into the view model
-                foreach (Review review in book.Reviews)
-                {
-                    ReviewVM viewModel = new()
-                    {
-                        Book = book,
-                        Comments = review.Comments,
-                        ReviewDate = review.ReviewDate,
-                        Reviewer = review.Reviewer,
-                        ReviewText = review.ReviewText
-                    };
-                    reviewVMs.Add(viewModel);
-                }
+              books = await bookQueryable.Where(b => b.BookTitle == bookTitle).ToListAsync<Book>();
             }
             else
             {
-                // Get all the books, then get all the reviews and put them in a list
-                // TODO: Get a queryable of the books instead of a list
-                var books = await repo.Books.ToListAsync<Book>();
-                foreach (Book book in books)
-                {
-                    foreach (Review review in book.Reviews)
-                    {
-                        // We need to add Book and all the Review properties to the ReviewVM.
-                        ReviewVM viewModel = new() { Book= book, Comments = review.Comments,
-                            ReviewDate = review.ReviewDate, Reviewer = review.Reviewer, 
-                            ReviewText = review.ReviewText};
-                        reviewVMs.Add(viewModel);
-                    }
-                }
+                books = await bookQueryable.ToListAsync<Book>();
             }
 
-            return View(reviewVMs);
+            return View(books);
         }
 
 
