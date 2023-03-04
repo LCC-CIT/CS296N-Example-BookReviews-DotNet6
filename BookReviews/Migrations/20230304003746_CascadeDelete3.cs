@@ -6,13 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookReviews.Migrations
 {
-    public partial class ComplexDomain : Migration
+    public partial class CascadeDelete3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews");
+
             migrationBuilder.DropColumn(
                 name: "AuthorName",
                 table: "Books");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "BookId",
+                table: "Reviews",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
 
             migrationBuilder.CreateTable(
                 name: "Authors",
@@ -79,15 +91,36 @@ namespace BookReviews.Migrations
                 name: "IX_Comment_UserNameId",
                 table: "Comment",
                 column: "UserNameId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews",
+                column: "BookId",
+                principalTable: "Books",
+                principalColumn: "BookId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews");
+
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Comment");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "BookId",
+                table: "Reviews",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "AuthorName",
@@ -95,6 +128,14 @@ namespace BookReviews.Migrations
                 type: "longtext",
                 nullable: false)
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reviews_Books_BookId",
+                table: "Reviews",
+                column: "BookId",
+                principalTable: "Books",
+                principalColumn: "BookId",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

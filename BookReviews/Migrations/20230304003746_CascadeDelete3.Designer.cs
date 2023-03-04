@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookReviews.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230223213849_ComplexDomain")]
-    partial class ComplexDomain
+    [Migration("20230304003746_CascadeDelete3")]
+    partial class CascadeDelete3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,7 +100,7 @@ namespace BookReviews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
@@ -361,9 +361,7 @@ namespace BookReviews.Migrations
                 {
                     b.HasOne("BookReviews.Models.Book", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookId");
 
                     b.HasOne("BookReviews.Models.AppUser", "Reviewer")
                         .WithMany()

@@ -25,10 +25,12 @@ namespace BookReviews.Controllers
             // filter by book title
             if (bookTitle != null)
             {
+                //Get the requested book
                 Book book = repo.Books
                     .Where(b => b.BookTitle == bookTitle)
                     .Single<Book>();
 
+                // Get all the reviews on that book
                 reviews = await  repo.Books
                 .Where(b => b.BookTitle == bookTitle)
                 .SelectMany(b => b.Reviews).ToListAsync<Review>();

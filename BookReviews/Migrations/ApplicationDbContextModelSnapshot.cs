@@ -39,7 +39,7 @@ namespace BookReviews.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Book", b =>
@@ -63,7 +63,7 @@ namespace BookReviews.Migrations
 
                     b.HasKey("BookId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Comment", b =>
@@ -89,7 +89,7 @@ namespace BookReviews.Migrations
 
                     b.HasIndex("UserNameId");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Review", b =>
@@ -98,7 +98,7 @@ namespace BookReviews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
@@ -118,7 +118,7 @@ namespace BookReviews.Migrations
 
                     b.HasIndex("ReviewerId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -359,9 +359,7 @@ namespace BookReviews.Migrations
                 {
                     b.HasOne("BookReviews.Models.Book", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookId");
 
                     b.HasOne("BookReviews.Models.AppUser", "Reviewer")
                         .WithMany()

@@ -63,8 +63,11 @@ namespace BookReviews.Controllers
             {
                 foreach(string name in authors)
                 {
-                    var author = new Author { Name = name };
-                    book.Authors.Add(author);
+                    if (name != "")
+                    {
+                        var author = new Author { Name = name };
+                        book.Authors.Add(author);
+                    }
                 }
                 _context.Add(book);
                 await _context.SaveChangesAsync();
