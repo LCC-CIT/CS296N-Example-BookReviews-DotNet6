@@ -14,6 +14,7 @@ namespace BookReviews.Models
         public DateTime ReviewDate { get; set; }
 
         public ICollection<Comment> Comments { get => comments; } 
+        public int BookId { get; set; }  // Foreign key to enable EF to do cascade delete
         
     }
 }

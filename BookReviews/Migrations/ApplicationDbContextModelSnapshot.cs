@@ -98,7 +98,7 @@ namespace BookReviews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("BookId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
@@ -359,7 +359,9 @@ namespace BookReviews.Migrations
                 {
                     b.HasOne("BookReviews.Models.Book", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookReviews.Models.AppUser", "Reviewer")
                         .WithMany()
