@@ -63,7 +63,7 @@ namespace BookReviews.Controllers
             {
                 foreach(string name in authors)
                 {
-                    if (name != "")
+                    if (name != null)
                     {
                         var author = new Author { Name = name };
                         book.Authors.Add(author);
