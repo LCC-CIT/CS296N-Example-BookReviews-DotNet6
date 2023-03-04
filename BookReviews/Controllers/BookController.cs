@@ -175,7 +175,6 @@ namespace BookReviews.Controllers
                 // Remove Author objects to maintain referential integrity
                 // BookId FKs will be removed from the Author table
                 book.Authors.Clear();
-                await _context.SaveChangesAsync();
                 _context.Books.Remove(book);
             }
             await _context.SaveChangesAsync();
