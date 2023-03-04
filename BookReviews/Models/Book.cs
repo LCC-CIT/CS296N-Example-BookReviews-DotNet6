@@ -4,20 +4,15 @@ namespace BookReviews.Models
 {
     public class Book
     {
-        // Backinig fields for properties
-        private List<Author> authorList = new List<Author>();
-        private List<Review> reviewList = new List<Review>();
-
         public int BookId { get; set; }
-        public string BookTitle { get; set; }
+        public string BookTitle { get; set; } = string.Empty;
         public ulong Isbn { get; set; }
         public string? Publisher { get; set; }
         public DateTime PubDate { get; set; }
+        public List<Author> Authors { get; } = new List<Author>();
+        public List<Review> Reviews { get; } = new List<Review>();
 
-        public List<Author> Authors 
-        { get { return authorList; } }
-
-        public List<Review> Reviews  
-        { get { return reviewList; } }
+        // FK for list of Books on the Author class
+        public int? AuthorId { get; set; } // nullable FK to disable cascascade delete of Book with Author
     }
 }

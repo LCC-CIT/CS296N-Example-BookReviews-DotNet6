@@ -66,19 +66,22 @@ namespace BookReviews.Controllers
                     // Loop through the list of author names from the create form and add them to the book
                     foreach (string authorName in Authors)
                     {
-                        var authorObject = await _context.Authors.FirstOrDefaultAsync(a => a.Name == authorName);
-                        // If the author is already in the database add the object to the book
-                        if (authorObject != null)
+                        if (authorName != null)
                         {
-                            book.Authors.Add(authorObject);
-                        }
-                        // If the author wasn't in the database add them to it
-                        // and then add the object to the book
-                        else
-                        {
-                            var newAuthor = new Author { Name = authorName };
-                            _context.Authors.Add(newAuthor);
-                            book.Authors.Add(newAuthor);
+                            var authorObject = await _context.Authors.FirstOrDefaultAsync(a => a.Name == authorName);
+                            // If the author is already in the database add the object to the book
+                            if (authorObject != null)
+                            {
+                                book.Authors.Add(authorObject);
+                            }
+                            // If the author wasn't in the database add them to it
+                            // and then add the object to the book
+                            else
+                            {
+                                var newAuthor = new Author { Name = authorName };
+                                _context.Authors.Add(newAuthor);
+                                book.Authors.Add(newAuthor);
+                            }
                         }
                     }
                 }
