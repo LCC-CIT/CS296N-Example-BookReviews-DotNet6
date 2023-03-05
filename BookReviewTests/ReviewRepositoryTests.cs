@@ -8,15 +8,15 @@ namespace BookReviewTests
 {
     public class ReviewRepositoryTests
     {
-        private ApplicationDbContext context;
-        private ReviewRepository repo;
-        private Book book;
+        private ApplicationDbContext _context;
+        private ReviewRepository _repo;
+        private Book _book;
 
         public ReviewRepositoryTests()
         {
-            context = SetupTestRepo.CreateContext();
-            repo = SetupTestRepo.CreateRepo(context);
-            book = SetupTestRepo.CreateBook();
+            _context = SetupTestRepo.CreateContext();
+            _repo = SetupTestRepo.CreateRepo(_context);
+            _book = SetupTestRepo.CreateBook();
         }
 
         // Tests
@@ -27,22 +27,22 @@ namespace BookReviewTests
         {
             // Arrange: done in constructor
             //Act
-            int result = repo.StoreBookAsync(book).Result;
+            int result = _repo.StoreBookAsync(_book).Result;
             // Assert
             Assert.True(result > 0);
-            Assert.Equal(1, context.Books.Count());
+            Assert.Equal(1, _context.Books.Count());
         }
 
         [Fact]
         // Verify that a Book and all the related data are loaded
-        public void IQueryableBooksTest()
+        public void QueryableBooksTest()
         {
             // Arrange: store a book and it's related data in the database
-            context.Books.Add(book);
-            context.SaveChanges();
+            _context.Books.Add(_book);
+            _context.SaveChanges();
 
             // Act: get the IQueryable<Book> object
-            var bookFromRepo = repo.Books.First();
+            var bookFromRepo = _repo.Books.First();
 
             // Assert: check that the IQueryable<Book> object and all it's related data are there
             Assert.NotNull(bookFromRepo);
@@ -50,7 +50,7 @@ namespace BookReviewTests
             Assert.NotNull(bookFromRepo.Reviews.First());
             Assert.NotNull(bookFromRepo.Reviews.First().Reviewer);
             Assert.NotNull(bookFromRepo.Reviews.First().Comments.First());
-            Assert.NotNull(bookFromRepo.Reviews.First().Comments.First().Commentor);
+            Assert.NotNull(bookFromRepo.Reviews.First().Comments.First().UserName);
         }
     }
 }

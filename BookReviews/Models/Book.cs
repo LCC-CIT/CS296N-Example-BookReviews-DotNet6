@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BookReviews.Models
+﻿namespace BookReviews.Models
 {
     public class Book
     {
@@ -8,7 +6,7 @@ namespace BookReviews.Models
         public string BookTitle { get; set; } = string.Empty;
         public ulong Isbn { get; set; }
         public string? Publisher { get; set; }
-        public DateTime PubDate { get; set; }
+        public DateOnly PubDate { get; set; }
         public List<Author> Authors { get; } = new List<Author>();
         public List<Review> Reviews { get; } = new List<Review>();
 

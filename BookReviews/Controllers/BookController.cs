@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookReviews;
 using BookReviews.Models;
 
 namespace BookReviews.Controllers
@@ -57,14 +51,14 @@ namespace BookReviews.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] string[] Authors, Book book)
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,Isbn,Publisher,PubDate")] string[] authors, Book book)
         {
             if (ModelState.IsValid)
             {
-                if (Authors != null)
+                if (authors != null)
                 {
                     // Loop through the list of author names from the create form and add them to the book
-                    foreach (string authorName in Authors)
+                    foreach (string authorName in authors)
                     {
                         if (authorName != null)
                         {

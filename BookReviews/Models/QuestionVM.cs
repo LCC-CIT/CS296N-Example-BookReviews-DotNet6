@@ -11,7 +11,7 @@ namespace BookReviews.Models
         TrueFalse
     }
 
-    public class QuestionVM
+    public class QuestionVm
     {
         public QuestionType Type { get; set; }
         public string Question { get; set; }

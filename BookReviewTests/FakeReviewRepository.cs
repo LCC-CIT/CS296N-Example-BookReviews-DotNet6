@@ -1,18 +1,15 @@
 ﻿using BookReviews.Data;
 using BookReviews.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestDoubles;
 
 namespace BookReviewTests
 {
     public class FakeReviewRepository : IReviewRepository
     {
 
-        private List<Book> books = new List<Book>();
+        private List<Book> _books = new List<Book>();
 
 
  
@@ -36,8 +33,8 @@ namespace BookReviewTests
             int status = 0;
             if (model != null)
             {
-                model.BookId = books.Count + 1;
-                books.Add(model);
+                model.BookId = _books.Count + 1;
+                _books.Add(model);
                 status = 1;    
             }
             return status;

@@ -4,7 +4,6 @@ using BookReviews;
 using BookReviews.Controllers;
 using BookReviews.Data;
 using BookReviews.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
@@ -12,15 +11,15 @@ namespace BookReviewTests
 {
     public class ReviewControllerTests
     {
-        private ApplicationDbContext context;
-        private ReviewRepository repo;
-        private ReviewController controller;
+        private ApplicationDbContext _context;
+        private ReviewRepository _repo;
+        private ReviewController _controller;
 
         public ReviewControllerTests()
         {
-            context = SetupTestRepo.CreateContext();
-            repo = SetupTestRepo.CreateRepo(context);
-            controller = new ReviewController(repo, null); // we don't need the UserManager
+            _context = SetupTestRepo.CreateContext();
+            _repo = SetupTestRepo.CreateRepo(_context);
+            _controller = new ReviewController(_repo, null); // we don't need the UserManager
         }
         /*
         [Fact]
@@ -58,11 +57,11 @@ namespace BookReviewTests
         {
             // arrange
             var book = SetupTestRepo.CreateBook();
-            context.Add(book);
-            context.SaveChanges();
+            _context.Add(book);
+            _context.SaveChanges();
 
             // act
-            var viewResult = controller.Index(null, null, null).Result as ViewResult;
+            var viewResult = _controller.Index(null, null, null).Result as ViewResult;
 
             // assert
             var books = viewResult.Model as List<Book>;
@@ -81,7 +80,7 @@ namespace BookReviewTests
             var review1 = new Review() {ReviewText = "Test text 1 for book 1", 
                 Reviewer = new AppUser()};
             book1.Reviews.Add(review1);
-            context.Add(book1);
+            _context.Add(book1);
             var book2 = new Book() { BookTitle = "Book 2" };
             var review2 = new Review() {ReviewText = "Test text 2 for book 2", 
                 Reviewer = new AppUser()};
@@ -89,15 +88,15 @@ namespace BookReviewTests
             var review3 = new Review() {ReviewText = "Test text 3 for book 2", 
                 Reviewer = new AppUser()};
             book2.Reviews.Add(review3);
-            context.Add(book2);
+            _context.Add(book2);
             var book3 = new Book() { BookTitle = "Book 3" };
             var review4 = new Review() {ReviewText = "Test text 4 for book 2", 
                 Reviewer = new AppUser()};
             book3.Reviews.Add(review4);
-            context.Add(book3);
-            context.SaveChanges();
+            _context.Add(book3);
+            _context.SaveChanges();
 
-            var controller = new ReviewController(repo, null);  // I don't need a UserManager
+            var controller = new ReviewController(_repo, null);  // I don't need a UserManager
 
             // Act
             var filteredBooksView = controller.Index(null, book2.BookTitle, null).Result as ViewResult;

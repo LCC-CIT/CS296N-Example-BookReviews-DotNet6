@@ -9,17 +9,17 @@ namespace BookReviews.Controllers
 {
     public class ReviewController : Controller
     {
-        IReviewRepository repo;
-        UserManager<AppUser> userManager;
+        IReviewRepository _repo;
+        UserManager<AppUser> _userManager;
         public ReviewController(IReviewRepository r, UserManager<AppUser> userMngr)
         {
-            repo = r;
-            userManager = userMngr;
+            _repo = r;
+            _userManager = userMngr;
         }
 
         public async Task<IActionResult> Index(String reviewerName, String bookTitle, String reviewDate)
         {
-            var bookQueryable = repo.Books;
+            var bookQueryable = _repo.Books;
             List<Book> books;
 
             // filter by book title

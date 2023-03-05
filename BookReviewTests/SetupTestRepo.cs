@@ -2,10 +2,6 @@
 using BookReviews.Models;
 using BookReviews;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestSupport.EfHelpers;
 
 namespace BookReviewTests
@@ -33,7 +29,7 @@ namespace BookReviewTests
             var author = new Author
             {
                 Name = "J.R.R. Tolkien",
-                Birthdate = DateTime.Parse("01/03/1892")
+                Birthdate = DateOnly.Parse("01/03/1892")
             };
 
             var book = new Book
@@ -41,20 +37,20 @@ namespace BookReviewTests
                 BookTitle = "The Hobbit",
                 Publisher = "Houghton Mifflin Books",
                 Isbn = 395071224,   // ISBN-10
-                PubDate = DateTime.Parse("01/01/1966")
+                PubDate = DateOnly.Parse("01/01/1966")
             };
 
             var review = new Review
             {
                 Reviewer = new AppUser(),
                 ReviewText = "This is not a real review.",
-                ReviewDate = DateTime.Parse("01/01/2000")
+                ReviewDate = DateOnly.Parse("01/01/2000")
             };
 
             var comment = new Comment
             {
                 CommentText = "This is a test comment",
-                Commentor = new AppUser()
+                UserName = new AppUser()
             };
 
             review.Comments.Add(comment);

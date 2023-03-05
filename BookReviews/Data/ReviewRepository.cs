@@ -5,11 +5,11 @@ namespace BookReviews.Data
 {
     public class ReviewRepository : IReviewRepository
     {
-        private ApplicationDbContext context;
+        private ApplicationDbContext _context;
 
         public ReviewRepository(ApplicationDbContext appDbContext)
         {
-            context = appDbContext;
+            _context = appDbContext;
         }
 
         public IQueryable<Book> Books
@@ -18,7 +18,7 @@ namespace BookReviews.Data
             {
                 // Get all the Book objects in the Books DbSet
                 // and include the related data objects.
-                return context.Books.Include(b => b.Authors)
+                return _context.Books.Include(b => b.Authors)
                 .Include(b => b.Reviews)
                 .ThenInclude(r => r.Reviewer)
                 // Include Reviews again so that we can also include comemnts (Reviews won't be duplicated)
@@ -41,8 +41,8 @@ namespace BookReviews.Data
 
         public async Task<int> StoreBookAsync(Book model)
         {
-            context.Books.Add(model);
-            Task<int> task = context.SaveChangesAsync();
+            _context.Books.Add(model);
+            Task<int> task = _context.SaveChangesAsync();
             int result = await task;
             return result;
             // returns a positive value if succussful

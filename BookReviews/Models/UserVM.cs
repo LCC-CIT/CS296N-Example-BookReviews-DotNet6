@@ -2,7 +2,7 @@
 
 namespace BookReviews.Models
 {
-    public class UserVM
+    public class UserVm
     {
         public IEnumerable<AppUser> Users { get; set; } = null!; 
         public IEnumerable<IdentityRole> Roles { get; set; } = null!;

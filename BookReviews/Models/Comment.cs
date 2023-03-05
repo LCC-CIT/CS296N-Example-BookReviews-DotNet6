@@ -1,5 +1,4 @@
-﻿using System;
-namespace BookReviews.Models
+﻿namespace BookReviews.Models
 {
 	public class Comment
 	{

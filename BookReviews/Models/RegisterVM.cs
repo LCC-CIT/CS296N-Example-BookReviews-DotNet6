@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BookReviews.Models
+﻿namespace BookReviews.Models
 {
-    public class RegisterVM
+    public class RegisterVm
     {
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;

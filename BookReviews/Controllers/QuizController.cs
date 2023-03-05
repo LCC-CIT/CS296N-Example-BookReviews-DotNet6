@@ -1,6 +1,5 @@
 using BookReviews.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BookReviews.Controllers
 {
@@ -13,12 +12,12 @@ namespace BookReviews.Controllers
 
         public IActionResult Quiz()
         {
-            List<QuestionVM> questionSet = BookReviews.Quiz.GenerateQuestionSet();
+            List<QuestionVm> questionSet = BookReviews.Quiz.GenerateQuestionSet();
             return View(questionSet);
         }
 
         [HttpPost]
-        public IActionResult Quiz(List<QuestionVM> answers)
+        public IActionResult Quiz(List<QuestionVm> answers)
         {
             // Only the user answers get sent from the input form.
             // We need to add the questions and right answers again.

@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BookReviews.Models;
-using System.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookReviews.Controllers
@@ -10,27 +8,27 @@ namespace BookReviews.Controllers
    // [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        private UserManager<AppUser> userManager; 
-        private RoleManager<IdentityRole> roleManager;
+        private UserManager<AppUser> _userManager; 
+        private RoleManager<IdentityRole> _roleManager;
 
         public UserController(UserManager<AppUser> userMngr, RoleManager<IdentityRole> roleMngr)
         {
-            userManager = userMngr;
-            roleManager = roleMngr;
+            _userManager = userMngr;
+            _roleManager = roleMngr;
         }
 
         public async Task<IActionResult> Index()
         {
             List<AppUser> users = new List<AppUser>();
-            users = await userManager.Users.ToListAsync();
+            users = await _userManager.Users.ToListAsync();
             foreach(AppUser user in users)
             {
-                user.RoleNames = await userManager.GetRolesAsync(user);
+                user.RoleNames = await _userManager.GetRolesAsync(user);
             }
-            UserVM model = new UserVM
+            UserVm model = new UserVm
             {
                 Users = users,
-                Roles = roleManager.Roles
+                Roles = _roleManager.Roles
             };
             return View(model);
         }
@@ -38,10 +36,10 @@ namespace BookReviews.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id); 
+            AppUser user = await _userManager.FindByIdAsync(id); 
             if (user != null)
             {
-                IdentityResult result = await userManager.DeleteAsync(user); 
+                IdentityResult result = await _userManager.DeleteAsync(user); 
                 if (!result.Succeeded)
                 { // if failed
                     string errorMessage = "";
@@ -58,15 +56,15 @@ namespace BookReviews.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToAdmin(string id)
         {
-            IdentityRole adminRole = await roleManager.FindByNameAsync("Admin"); 
+            IdentityRole adminRole = await _roleManager.FindByNameAsync("Admin"); 
             if (adminRole == null)
             {
                 TempData["message"] = "Admin role does not exist. " + "Click 'Create Admin Role' button to create it.";
             }
             else
             {
-                AppUser user = await userManager.FindByIdAsync(id); 
-                await userManager.AddToRoleAsync(user, adminRole.Name);
+                AppUser user = await _userManager.FindByIdAsync(id); 
+                await _userManager.AddToRoleAsync(user, adminRole.Name);
             }
             return RedirectToAction("Index");
         }
@@ -74,23 +72,23 @@ namespace BookReviews.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveFromAdmin(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id); 
-            await userManager.RemoveFromRoleAsync(user, "Admin"); 
+            AppUser user = await _userManager.FindByIdAsync(id); 
+            await _userManager.RemoveFromRoleAsync(user, "Admin"); 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            IdentityRole role = await roleManager.FindByIdAsync(id); 
-            await roleManager.DeleteAsync(role); 
+            IdentityRole role = await _roleManager.FindByIdAsync(id); 
+            await _roleManager.DeleteAsync(role); 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateAdminRole()
         {
-            await roleManager.CreateAsync(new IdentityRole("Admin")); 
+            await _roleManager.CreateAsync(new IdentityRole("Admin")); 
             return RedirectToAction("Index");
         }
 
@@ -103,12 +101,12 @@ namespace BookReviews.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(RegisterVM model)
+        public async Task<IActionResult> Add(RegisterVm model)
         {
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = model.Username };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {

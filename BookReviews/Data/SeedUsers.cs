@@ -5,14 +5,14 @@ namespace BookReviews.Data
 {
     public class SeedUsers
     {
-        private static RoleManager<IdentityRole> roleManager;
-        private static UserManager<AppUser> userManager;
+        private static RoleManager<IdentityRole> _roleManager;
+        private static UserManager<AppUser> _userManager;
         // TODO: add static constructor
 
         public static async Task CreateUsers(IServiceProvider provider)
         {
-            roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
-            userManager = provider.GetRequiredService<UserManager<AppUser>>();
+            _roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
+            _userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
             const string MEMBER = "Member";
             await CreateRole(MEMBER);
@@ -32,9 +32,9 @@ namespace BookReviews.Data
         private static async Task CreateRole(string roleName)
         {
             // if role doesn't exist, create it
-            if (await roleManager.FindByNameAsync(roleName) == null)
+            if (await _roleManager.FindByNameAsync(roleName) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
             }
         }
 
@@ -43,10 +43,10 @@ namespace BookReviews.Data
             // if username doesn't exist, create it and add to role if (await userManager.FindByNameAsync(username) == null) {
             AppUser user = new AppUser { UserName = firstName + lastName,
                 Name = firstName + " " + lastName};
-            var result = await userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, password);
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, role);
+                await _userManager.AddToRoleAsync(user, role);
             }
         }
     }
