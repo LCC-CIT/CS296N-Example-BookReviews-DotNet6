@@ -76,18 +76,18 @@ namespace BookReviews.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserNameId")
+                    b.Property<string>("CommenterId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.HasKey("CommentId");
 
-                    b.HasIndex("ReviewId");
+                    b.HasIndex("CommenterId");
 
-                    b.HasIndex("UserNameId");
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("Comment");
                 });
@@ -342,17 +342,17 @@ namespace BookReviews.Migrations
 
             modelBuilder.Entity("BookReviews.Models.Comment", b =>
                 {
+                    b.HasOne("BookReviews.Models.AppUser", "Commenter")
+                        .WithMany()
+                        .HasForeignKey("CommenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookReviews.Models.Review", null)
                         .WithMany("Comments")
                         .HasForeignKey("ReviewId");
 
-                    b.HasOne("BookReviews.Models.AppUser", "UserName")
-                        .WithMany()
-                        .HasForeignKey("UserNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserName");
+                    b.Navigation("Commenter");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Review", b =>

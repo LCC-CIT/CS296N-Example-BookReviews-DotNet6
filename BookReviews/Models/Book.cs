@@ -1,23 +1,20 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookReviews.Models
+namespace BookReviews.Models;
+
+public class Book
 {
-    public class Book
-    {
-        // Backinig fields for properties
-        private List<Author> authorList = new List<Author>();
-        private List<Review> reviewList = new List<Review>();
+    // Backinig fields for properties
 
-        public int BookId { get; set; }
-        public string BookTitle { get; set; }
-        public ulong Isbn { get; set; }
-        public string? Publisher { get; set; }
-        public DateTime PubDate { get; set; }
+    public int BookId { get; set; }
+    public string BookTitle { get; set; }
+    public ulong Isbn { get; set; }
+    public string? Publisher { get; set; }
 
-        public List<Author> Authors 
-        { get { return authorList; } }
+    [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}", ApplyFormatInEditMode = true)]
+    public DateTime PubDate { get; set; }
 
-        public List<Review> Reviews  
-        { get { return reviewList; } }
-    }
+    public List<Author> Authors { get; } = new();
+
+    public List<Review> Reviews { get; } = new();
 }

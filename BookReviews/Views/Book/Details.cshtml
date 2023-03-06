@@ -1,4 +1,4 @@
-@model BookReviews.Models.Book
+@model Book
 
 @{
     ViewData["Title"] = "Details";
@@ -8,40 +8,40 @@
 
 <div>
     <h4>Book</h4>
-    <hr />
+    <hr/>
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BookTitle)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BookTitle)
         </dd>
-        @foreach(Author author in Model.Authors)
+        @foreach (var author in Model.Authors)
         {
-            <dt class = "col-sm-2">
+            <dt class="col-sm-2">
                 Author
             </dt>
-            <dd class = "col-sm-10">
+            <dd class="col-sm-10">
                 @author.Name
             </dd>
         }
 
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Isbn)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Isbn)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Publisher)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Publisher)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PubDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PubDate)
         </dd>
     </dl>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookReviews.Migrations
 {
-    public partial class CascadeDelete : Migration
+    public partial class ComplexDomain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -251,7 +251,7 @@ namespace BookReviews.Migrations
                     ReviewText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ReviewDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true)
+                    BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -266,7 +266,8 @@ namespace BookReviews.Migrations
                         name: "FK_Reviews_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
-                        principalColumn: "BookId");
+                        principalColumn: "BookId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -278,7 +279,7 @@ namespace BookReviews.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CommentText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserNameId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    CommenterId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ReviewId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -286,8 +287,8 @@ namespace BookReviews.Migrations
                 {
                     table.PrimaryKey("PK_Comment", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserNameId",
-                        column: x => x.UserNameId,
+                        name: "FK_Comment_AspNetUsers_CommenterId",
+                        column: x => x.CommenterId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -342,14 +343,14 @@ namespace BookReviews.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_CommenterId",
+                table: "Comment",
+                column: "CommenterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_ReviewId",
                 table: "Comment",
                 column: "ReviewId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserNameId",
-                table: "Comment",
-                column: "UserNameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId",

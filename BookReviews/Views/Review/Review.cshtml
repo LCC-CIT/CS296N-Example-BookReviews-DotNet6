@@ -1,19 +1,11 @@
-﻿
-
-<h1 class="display-4">Add a Review</h1>
-<form method="post">
-    <label for="BookTitle">Title</label>
-    <input name="BookTitle" /><br />
-
-    <label>Authors</label>
-    @* Repeating the same name attribute will create an array*@
-    <input name = "author" />&nbsp;
-    <input name = "author" />&nbsp;
-    <input name = "author" />
-    <br />
-
-    <label for="ReviewText">Review</label>
-    <textarea name="ReviewText"></textarea><br />
-
+﻿@model Book
+<h1 class="display-4">Write a Review for @Model.BookTitle</h1>
+<form asp-controller="Review" asp-action="Review" method="post">
+    <label for="ReviewText">Review</label><br/>
+    <textarea name="ReviewText"></textarea><br/>
+    
+    <label asp-for="BookId" hidden="hidden"></label>
+    <input asp-for="BookId" hidden="hidden"></input>
+    
     <button type="submit">Submit</button>
 </form>
