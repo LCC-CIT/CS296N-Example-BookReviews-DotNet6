@@ -7,10 +7,14 @@ public class Book
     // Backinig fields for properties
 
     public int BookId { get; set; }
+    [Required]
+    [StringLength(100)]
     public string BookTitle { get; set; }
+    [Range(1000000000, 999999999999)]
     public ulong Isbn { get; set; }
     public string? Publisher { get; set; }
-
+    [Range(typeof(DateTime), "1/1/1753", "12/31/2100",
+        ErrorMessage = "Date for {0} must be between {1} and {2}")]
     [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}", ApplyFormatInEditMode = true)]
     public DateTime PubDate { get; set; }
 

@@ -8,6 +8,8 @@ public class Review
 
     public int ReviewId { get; set; }
     public AppUser Reviewer { get; set; }
+    [Required]
+    [StringLength(500, MinimumLength = 10)]
     public string ReviewText { get; set; }
 
     [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}", ApplyFormatInEditMode = true)]
