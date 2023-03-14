@@ -14,7 +14,8 @@ public class SeedData
             // There will be two reviews of this book in the seed data
             var book = new Book { BookTitle = "Prince of Foxes" };
             book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
-
+            book.PubDate = DateTime.Parse("01/01/1947");
+            book.Isbn = 1882593642;
             // First review
             var emmaWatson = userManager.FindByNameAsync("EmmaWatson").Result;
             var review = new Review
@@ -40,6 +41,8 @@ public class SeedData
             var brianBird = userManager.FindByNameAsync("BrianBird").Result;
             book = new Book { BookTitle = "Virgil Wander" };
             book.Authors.Add(new Author { Name = "Lief Enger" });
+            book.PubDate = DateTime.Parse("1/1/2018");
+            book.Isbn = 0802128785;
             review = new Review
             {
                 ReviewText = "Wonderful book, written by a distant cousin of mine.",
@@ -52,6 +55,7 @@ public class SeedData
             // fourth review, another book
             book = new Book { BookTitle = "Ivanho" };
             book.Authors.Add(new Author { Name = "Sir Walter Scott" });
+            book.PubDate = DateTime.Parse("1/1/1819");
             review = new Review
             {
                 ReviewText = "It was a little hard going at first, but then I loved it!",
@@ -63,6 +67,7 @@ public class SeedData
 
             // Another book and the fifth review
             book = new Book { BookTitle = "The Hobbit" };
+            book.PubDate = DateTime.Parse("1/1/1937");
             book.Authors.Add(new Author { Name = "J.R.R. Tolkien" });
             review = new Review
             {
@@ -74,9 +79,11 @@ public class SeedData
             context.Books.Add(book);
 
             // Another book and the sixth review
-            book = new Book { BookTitle = "Murach's ASP.NET Core MVC" };
+            book = new Book { BookTitle = "Murach's ASP.NET Core MVC, 2nd Ed." };
             book.Authors.Add(new Author { Name = "Joel Murach" });
             book.Authors.Add(new Author { Name = "Mary Delameter" });
+            book.PubDate = DateTime.Parse("1/11/2022");
+            book.Isbn = 1943873029;
             review = new Review
             {
                 ReviewText = "This is a great book for learning MVC!",
