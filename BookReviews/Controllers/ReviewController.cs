@@ -68,6 +68,7 @@ public class ReviewController : Controller
         {
             // Get the AppUser object for the currently logged in user
             review.Reviewer = await userManager.GetUserAsync(User);
+            review.ReviewDate = DateTime.Now;
         }
         // Get the book that this review is for
         var book = await repo.GetBookByIdAsync(bookId);
