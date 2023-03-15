@@ -52,9 +52,13 @@ Enter a book title:
             @book.Authors[i].Name
         }
         <br />
+        <a asp-action="Review" asp-route-id="@book.BookId"
+           class="btn-sm btn-secondary col-3 m-3">
+            Add Review
+        </a>
         @foreach (var review in book.Reviews)
         {
-            <h5 class="m-3">Review@(review.Comments.Count > 1 ? "s" : "")</h5>
+            <h5 class="m-3">Review</h5>
 
             <strong class="m-3">Reviewer:</strong>
             @review.Reviewer.Name
@@ -65,11 +69,10 @@ Enter a book title:
             <strong class="m-3">Review:</strong>
             @review.ReviewText
             <br />
-            <a asp-action="Review" asp-route-id="@book.BookId"
+            <a asp-action="Comment" asp-route-reviewId="@review.ReviewId" asp-route-bookId="@book.BookId"
                class="btn-sm btn-secondary col-3 m-3">
-                Add Review
+                Add Comment
             </a>
-            <br /><br />
 
             @if (review.Comments.Count != 0)
             {
@@ -80,14 +83,8 @@ Enter a book title:
                     <p class="m-3">@comment.CommentText</p>
                     <strong class="m-3">By:</strong>
                     @comment.Commenter.Name
-                    <br /><br />
                 }
             }
-            <a asp-action="Comment" asp-route-reviewId="@review.ReviewId" asp-route-bookId="@book.BookId"
-               class="btn-sm btn-secondary col-3 m-3">
-                Add Comment
-            </a>
-            <br /><br />
         }
         <hr />
     }

@@ -12,6 +12,8 @@ public class SeedData
             var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
             // There will be two reviews of this book in the seed data
+            var samuelShallabarger = new Author { Name = "Samuel Shallabarger", 
+                Birthdate = DateTime.Parse("05/18/1888") };
             var book = new Book { BookTitle = "Prince of Foxes" };
             book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
             book.PubDate = DateTime.Parse("01/01/1947");
@@ -86,7 +88,8 @@ public class SeedData
             book.Isbn = 1943873029;
             review = new Review
             {
-                ReviewText = "This is a great book for learning MVC!",
+                ReviewText = "This is a great book for learning ASP.NET MVC! " +
+                "The second edition uses .NET 6.0 so it's quite up to date.",
                 Reviewer = brianBird,
                 ReviewDate = DateTime.Parse("11/1/2020")
             };

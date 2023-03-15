@@ -24,7 +24,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM model)
     {
-        // if (ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             var user = new AppUser { UserName = model.Username };
             // Temporary assignment of user's real name (screen name?)

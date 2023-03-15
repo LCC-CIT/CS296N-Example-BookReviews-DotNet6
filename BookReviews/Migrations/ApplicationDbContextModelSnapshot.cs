@@ -75,10 +75,10 @@ namespace BookReviews.Migrations
 
                     b.Property<string>("CommentText")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("CommenterId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("ReviewId")
@@ -346,9 +346,7 @@ namespace BookReviews.Migrations
                 {
                     b.HasOne("BookReviews.Models.AppUser", "Commenter")
                         .WithMany()
-                        .HasForeignKey("CommenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CommenterId");
 
                     b.HasOne("BookReviews.Models.Review", null)
                         .WithMany("Comments")
