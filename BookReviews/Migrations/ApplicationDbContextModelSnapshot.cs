@@ -19,6 +19,21 @@ namespace BookReviews.Migrations
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.Property<int>("AuthorsAuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksBookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorsAuthorId", "BooksBookId");
+
+                    b.HasIndex("BooksBookId");
+
+                    b.ToTable("AuthorBook");
+                });
+
             modelBuilder.Entity("BookReviews.Models.Author", b =>
                 {
                     b.Property<int>("AuthorId")
@@ -28,16 +43,11 @@ namespace BookReviews.Migrations
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("AuthorId");
-
-                    b.HasIndex("BookId");
 
                     b.ToTable("Authors");
                 });
@@ -335,11 +345,19 @@ namespace BookReviews.Migrations
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
-            modelBuilder.Entity("BookReviews.Models.Author", b =>
+            modelBuilder.Entity("AuthorBook", b =>
                 {
+                    b.HasOne("BookReviews.Models.Author", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorsAuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookReviews.Models.Book", null)
-                        .WithMany("Authors")
-                        .HasForeignKey("BookId");
+                        .WithMany()
+                        .HasForeignKey("BooksBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookReviews.Models.Comment", b =>
@@ -427,8 +445,6 @@ namespace BookReviews.Migrations
 
             modelBuilder.Entity("BookReviews.Models.Book", b =>
                 {
-                    b.Navigation("Authors");
-
                     b.Navigation("Reviews");
                 });
 

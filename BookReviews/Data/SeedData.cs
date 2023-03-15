@@ -17,8 +17,8 @@ public class SeedData
                 Name = "Samuel Shallabarger",
                 Birthdate = DateTime.Parse("05/18/1888")
             };
-            context.Authors.Add(samuelShallabarger);
-            context.SaveChanges();
+            // context.Authors.Add(samuelShallabarger);
+            // context.SaveChanges();
 
             var book = new Book { BookTitle = "Captain from Castile" };
             book.Authors.Add(samuelShallabarger);
@@ -94,11 +94,15 @@ public class SeedData
             book.Reviews.Add(review);
             context.Books.Add(book);
 
+            // There will be two books by this author
+            var maryDelameter = new Author { Name = "Mary Delameter" };
+
             // Another book and the sixth review
             book = new Book { BookTitle = "Murach's ASP.NET Core MVC, 2nd Ed." };
+            book.Authors.Add(maryDelameter);
             book.Authors.Add(new Author { Name = "Joel Murach" });
-            book.Authors.Add(new Author { Name = "Mary Delameter" });
-            book.PubDate = DateTime.Parse("1/11/2022");
+            book.PubDate = DateTime.Parse("11/1/2022");
+            book.Publisher = "Murach";
             book.Isbn = 1943873029;
             review = new Review
             {
@@ -110,7 +114,16 @@ public class SeedData
             book.Reviews.Add(review);
             context.Books.Add(book);
 
-            context.SaveChanges(); // stores all the books with thier reviews in the DB
+            // Another book, the second by this author
+            book = new Book { BookTitle = "Murach's JavaScript, 2nd Ed." };
+            book.Authors.Add(maryDelameter);
+            book.PubDate = DateTime.Parse("9/1/2015");
+            book.Publisher = "Murach";
+            book.Isbn = 9781890774851;
+            book.Reviews.Add(review);
+            context.Books.Add(book);
+
+            context.SaveChanges(); // stores all the books with thier related data in the DB
         }
     }
 }

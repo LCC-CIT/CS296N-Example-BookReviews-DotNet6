@@ -4,8 +4,6 @@ namespace BookReviews.Models;
 
 public class Book
 {
-    // Backinig fields for properties
-
     public int BookId { get; set; }
 
     [Required]
@@ -24,4 +22,6 @@ public class Book
     public List<Author> Authors { get; } = new();
 
     public List<Review> Reviews { get; } = new();
+
+   // public int? AuthorId { get; set; } // Nullable- no cascade delete.
 }
