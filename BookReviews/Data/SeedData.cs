@@ -11,11 +11,25 @@ public class SeedData
         {
             var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
-            // There will be two reviews of this book in the seed data
-            var samuelShallabarger = new Author { Name = "Samuel Shallabarger", 
-                Birthdate = DateTime.Parse("05/18/1888") };
-            var book = new Book { BookTitle = "Prince of Foxes" };
-            book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
+            // There will be two books by this author
+            var samuelShallabarger = new Author
+            {
+                Name = "Samuel Shallabarger",
+                Birthdate = DateTime.Parse("05/18/1888")
+            };
+            context.Authors.Add(samuelShallabarger);
+            context.SaveChanges();
+
+            var book = new Book { BookTitle = "Captain from Castile" };
+            book.Authors.Add(samuelShallabarger);
+            book.PubDate = DateTime.Parse("01/01/1945");
+            book.Publisher = "Bridgeworks";
+            book.Isbn = 9781882593620;
+            context.Books.Add(book);
+
+            // There will be two reviews of this book
+            book = new Book { BookTitle = "Prince of Foxes" };
+            book.Authors.Add(samuelShallabarger);
             book.PubDate = DateTime.Parse("01/01/1947");
             book.Isbn = 1882593642;
             // First review
