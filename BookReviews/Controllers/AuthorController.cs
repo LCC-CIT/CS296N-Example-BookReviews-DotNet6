@@ -1,4 +1,6 @@
+using BookReviews.Data;
 using BookReviews.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,9 +9,10 @@ namespace BookReviews.Controllers;
 public class AuthorController : Controller
 {
     private readonly ApplicationDbContext _context;
-
-    public AuthorController(ApplicationDbContext context)
+    private readonly IBookRepository _repo;
+    public AuthorController(ApplicationDbContext context, IBookRepository repo)
     {
+        _repo = repo;
         _context = context;
     }
 
@@ -95,26 +98,25 @@ public class AuthorController : Controller
         return View(author);
     }
 
-    // GET: Author/Delete/5
+    // GET: Author/Delete/5 (shows the author to be deleted and asks for confirmation)
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || _context.Authors == null) return NotFound();
 
-        var author = await _context.Authors
-            .FirstOrDefaultAsync(m => m.AuthorId == id);
+        var author = await _repo.GetAuthorByIdAsync((int)id);  // cast ok since id won't be null here
         if (author == null) return NotFound();
 
         return View(author);
     }
 
-    // POST: Author/Delete/5
+    // POST: Author/Delete/5 (this does the actual delete)
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         if (_context.Authors == null) return Problem("Entity set 'ApplicationDbContext.Authors'  is null.");
-        var author = await _context.Authors.FindAsync(id);
+        var author = await _repo.GetAuthorByIdAsync(id);
         if (author != null) _context.Authors.Remove(author);
 
         await _context.SaveChangesAsync();

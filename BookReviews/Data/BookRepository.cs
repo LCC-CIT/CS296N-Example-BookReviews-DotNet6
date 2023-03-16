@@ -22,14 +22,23 @@ public class BookRepository : IBookRepository
                 .Include(b => b.Authors)
                 .Include(b => b.Reviews)
                 .ThenInclude(r => r.Reviewer)
-                // Include Reviews again so that we can also include comments (Reviews won't be duplicated)
+                // Include Reviews again so that we can also then include comments (Reviews won't be duplicated)
                 .Include(b => b.Reviews)
                 .ThenInclude(r => r.Comments)
                 .ThenInclude(c => c.Commenter);
         }
     }
 
-    public IQueryable<Review> Reviews => throw new NotImplementedException();
+    public IQueryable<Review> Reviews
+    {
+        get
+        {
+            return _context.Reviews
+                .Include(r => r.Reviewer)
+                .Include(r => r.Comments)
+                .ThenInclude(c => c.Commenter);
+        }
+    }
 
     public async Task<Book?> GetBookByIdAsync(int id)
     {
@@ -37,11 +46,13 @@ public class BookRepository : IBookRepository
         return await Books.Where(b => b.BookId == id).FirstOrDefaultAsync();
     }
 
-    public Review GetReviewById(int id)
+    public async Task<Review?> GetReviewByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        // Get the review with the specified id
+        return await Reviews.Where(r => r.ReviewId == id)
+                .FirstOrDefaultAsync();
     }
-    
+
     // Update a book if it already exists, add it if it doesn't
     public async Task<int> AddOrUpdateBookAsync(Book model)
     {
@@ -49,5 +60,13 @@ public class BookRepository : IBookRepository
         var result = await _context.SaveChangesAsync();
         return result;
         // returns a positive value if successful
+    }
+
+    public async Task<Author?> GetAuthorByIdAsync(int id)
+    {
+        return await _context.Authors
+            .Include(a => a.Books)  // Do I need to include books for them to be cascade deleted?
+            .Where(a => a.AuthorId == id)
+            .FirstOrDefaultAsync();
     }
 }

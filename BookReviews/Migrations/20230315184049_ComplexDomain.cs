@@ -73,6 +73,23 @@ namespace BookReviews.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Authors",
+                columns: table => new
+                {
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -83,7 +100,8 @@ namespace BookReviews.Migrations
                     Isbn = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     Publisher = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PubDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    PubDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,24 +237,27 @@ namespace BookReviews.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Authors",
+                name: "AuthorBook",
                 columns: table => new
                 {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true)
+                    AuthorsAuthorId = table.Column<int>(type: "int", nullable: false),
+                    BooksBookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_AuthorBook", x => new { x.AuthorsAuthorId, x.BooksBookId });
                     table.ForeignKey(
-                        name: "FK_Authors_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_AuthorBook_Authors_AuthorsAuthorId",
+                        column: x => x.AuthorsAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuthorBook_Books_BooksBookId",
+                        column: x => x.BooksBookId,
                         principalTable: "Books",
-                        principalColumn: "BookId");
+                        principalColumn: "BookId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -281,7 +302,7 @@ namespace BookReviews.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CommenterId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ReviewId = table.Column<int>(type: "int", nullable: true)
+                    ReviewId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -296,7 +317,8 @@ namespace BookReviews.Migrations
                         name: "FK_Comment_Reviews_ReviewId",
                         column: x => x.ReviewId,
                         principalTable: "Reviews",
-                        principalColumn: "ReviewId");
+                        principalColumn: "ReviewId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -338,9 +360,9 @@ namespace BookReviews.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_BookId",
-                table: "Authors",
-                column: "BookId");
+                name: "IX_AuthorBook_BooksBookId",
+                table: "AuthorBook",
+                column: "BooksBookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_CommenterId",
@@ -381,13 +403,16 @@ namespace BookReviews.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Authors");
+                name: "AuthorBook");
 
             migrationBuilder.DropTable(
                 name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

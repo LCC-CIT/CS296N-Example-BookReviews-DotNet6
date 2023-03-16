@@ -144,8 +144,9 @@ public class BookController : Controller
             .FirstOrDefaultAsync(m => m.BookId == id);
         if (book != null)
         {
-            // Remove Author objects to maintain referential integrity
-            // BookId FKs will be removed from the Author table
+            // Remove Author objects from the book to maintain referential integrity.
+            // BookId FKs will be removed from the Author table in the database.
+            // Authors will not be removed from the database.
             book.Authors.Clear();
             _context.Books.Remove(book);
         }

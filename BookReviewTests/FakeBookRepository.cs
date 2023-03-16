@@ -16,12 +16,7 @@ public class FakeBookRepository : IBookRepository
 
     public IQueryable<Review> Reviews => throw new NotImplementedException();
 
-    public Book GetBookById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Review GetReviewById(int id)
+    public Task<Review> GetReviewByIdAsync(int id)
     {
         throw new NotImplementedException();
     }

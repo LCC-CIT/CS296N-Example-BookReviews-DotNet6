@@ -4,8 +4,6 @@ namespace BookReviews.Models;
 
 public class Book
 {
-    // Backinig fields for properties
-
     public int BookId { get; set; }
     public string BookTitle { get; set; }
     public ulong Isbn { get; set; }
@@ -13,8 +11,7 @@ public class Book
 
     [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}", ApplyFormatInEditMode = true)]
     public DateTime PubDate { get; set; }
-
-    public List<Author> Authors { get; } = new();
-
+    public List<Author> Authors { get; } = new();  // one side of a many-to-many relationship
     public List<Review> Reviews { get; } = new();
+    public int AuthorId { get; set; } // Do cascade delete books with their author(s).
 }
