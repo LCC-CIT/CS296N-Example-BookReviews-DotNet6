@@ -1,0 +1,27 @@
+@model List<Book>
+
+@{
+    ViewData["Title"] = "Books";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Books by @ViewBag.Author</h4>
+    <hr/>
+    <dl class="row">
+        @foreach(Book book in Model)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(noParam => book.BookTitle)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(noParam => book.BookTitle)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
