@@ -42,7 +42,7 @@
       <w>210</w>
       <h>75</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m2=0..*
 m1=1
 </panel_attributes>
@@ -96,7 +96,7 @@ m1=1
       <w>60</w>
       <h>240</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m2=1
 m1=1
 </panel_attributes>
@@ -110,7 +110,7 @@ m1=1
       <w>255</w>
       <h>255</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m2=1
 m1=1
 
@@ -153,9 +153,11 @@ r1=Aggregate - Root Entity is Book
     </coordinates>
     <panel_attributes>Determination of composition vs. aggregation
 
-Comment objects are deleted with a review object.
-Book objects are not deleted with a review object.
-AppUser objects aren't deleted with review or comment objects.
+Comment objects are deleted with a Review object.
+Book objects are not deleted with a Review object.
+AppUser objects aren't deleted with Review or Comment objects.
+Book objects are not deleted with Author objects and vice-versa.
+
 
 </panel_attributes>
     <additional_attributes/>
@@ -217,8 +219,8 @@ m1=1
       <w>90</w>
       <h>165</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;&gt;&gt;&gt;
+m1=0..*
 m2= 1..*
 
 </panel_attributes>

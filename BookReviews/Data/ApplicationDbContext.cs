@@ -15,16 +15,8 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Author> Authors { get; set; }
     public DbSet<Review> Reviews { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
+    // Note: Cascade delete can't be configured for many-to-many relationships in OnModelCreating
+    // Cascade deletes for many-to-many entities needs to be done explicitly in our own code.
+    // 
 
-        // Configure cascade delete of Books when deleting an Author
-        builder.Entity<Author>()
-            .HasMany(a => a.Books)   // these two lines configure the many-to-many relationship
-            .WithMany(b => b.Authors);
-          //  .OnDelete(DeleteBehavior.Cascade);  // TODO: fix this bug
-        // FYI EF would configure the liniking table for the many-to-many relationship without 
-        // this code, but we needed to set the cascade delete behavior.
-    }
 }

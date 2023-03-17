@@ -17,7 +17,7 @@ internal class SetupTestRepo
 
     public static BookRepository CreateRepo(ApplicationDbContext context)
     {
-        // Create a ReviewRepository instance using a SQLite in-memory db
+        // Create a BookRepository instance using a SQLite in-memory db
         context.Database.EnsureCreated();
         return new BookRepository(context);
     }

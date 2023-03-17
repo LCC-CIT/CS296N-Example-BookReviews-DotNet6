@@ -58,8 +58,7 @@ public class BookRepository : IBookRepository
     {
         _context.Books.Update(model);
         var result = await _context.SaveChangesAsync();
-        return result;
-        // returns a positive value if successful
+        return result;  // returns a positive value if successful
     }
 
     public async Task<Author?> GetAuthorByIdAsync(int id)

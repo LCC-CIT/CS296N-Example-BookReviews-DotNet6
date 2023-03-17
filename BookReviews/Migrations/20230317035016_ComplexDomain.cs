@@ -80,8 +80,7 @@ namespace BookReviews.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true)
+                    Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,8 +99,7 @@ namespace BookReviews.Migrations
                     Isbn = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     Publisher = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PubDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                    PubDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

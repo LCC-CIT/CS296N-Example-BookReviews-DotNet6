@@ -6,7 +6,8 @@ namespace BookReviews.Models;
 public class AppUser : IdentityUser
 {
     public DateTime SignUpDate { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = String.Empty;
 
-    [NotMapped] public IList<string> RoleNames { get; set; } = null!;
+    [NotMapped]
+    public IList<string> RoleNames { get; set; } = null!;
 }

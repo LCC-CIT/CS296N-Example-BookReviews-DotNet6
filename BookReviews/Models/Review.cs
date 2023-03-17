@@ -7,8 +7,8 @@ public class Review
     private readonly List<Comment> comments = new(); // Backing field for Comments
 
     public int ReviewId { get; set; }
-    public AppUser Reviewer { get; set; }
-    public string ReviewText { get; set; }
+    public AppUser Reviewer { get; set; } = new();
+    public string ReviewText { get; set; } = string.Empty;
 
     [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}", ApplyFormatInEditMode = true)]
     public DateTime ReviewDate { get; set; }

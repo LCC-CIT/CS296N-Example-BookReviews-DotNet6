@@ -11,9 +11,23 @@ public class SeedData
         {
             var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
-            // There will be two reviews of this book in the seed data
-            var book = new Book { BookTitle = "Prince of Foxes" };
-            book.Authors.Add(new Author { Name = "Samuel Shallabarger" });
+            // There will be two books by this author
+            var samuelShallabarger = new Author
+            {
+                Name = "Samuel Shallabarger",
+                Birthdate = DateTime.Parse("05/18/1888")
+            };
+
+            var book = new Book { BookTitle = "Captain from Castile" };
+            book.Authors.Add(samuelShallabarger);
+            book.PubDate = DateTime.Parse("01/01/1945");
+            book.Publisher = "Bridgeworks";
+            book.Isbn = 9781882593620;
+            context.Books.Add(book);
+
+            // There will be two reviews of this book
+            book = new Book { BookTitle = "Prince of Foxes" };
+            book.Authors.Add(samuelShallabarger);
             book.PubDate = DateTime.Parse("01/01/1947");
             book.Isbn = 1882593642;
             // First review
@@ -78,22 +92,36 @@ public class SeedData
             book.Reviews.Add(review);
             context.Books.Add(book);
 
+            // There will be two books by this author
+            var maryDelameter = new Author { Name = "Mary Delameter" };
+
             // Another book and the sixth review
             book = new Book { BookTitle = "Murach's ASP.NET Core MVC, 2nd Ed." };
+            book.Authors.Add(maryDelameter);
             book.Authors.Add(new Author { Name = "Joel Murach" });
-            book.Authors.Add(new Author { Name = "Mary Delameter" });
-            book.PubDate = DateTime.Parse("1/11/2022");
+            book.PubDate = DateTime.Parse("11/1/2022");
+            book.Publisher = "Murach";
             book.Isbn = 1943873029;
             review = new Review
             {
-                ReviewText = "This is a great book for learning MVC!",
+                ReviewText = "This is a great book for learning ASP.NET MVC! " +
+                "The second edition uses .NET 6.0 so it's quite up to date.",
                 Reviewer = brianBird,
                 ReviewDate = DateTime.Parse("11/1/2020")
             };
             book.Reviews.Add(review);
             context.Books.Add(book);
 
-            context.SaveChanges(); // stores all the books with thier reviews in the DB
+            // Another book, the second by this author
+            book = new Book { BookTitle = "Murach's JavaScript, 2nd Ed." };
+            book.Authors.Add(maryDelameter);
+            book.PubDate = DateTime.Parse("9/1/2015");
+            book.Publisher = "Murach";
+            book.Isbn = 9781890774851;
+            book.Reviews.Add(review);
+            context.Books.Add(book);
+
+            context.SaveChanges(); // stores all the books with thier related data in the DB
         }
     }
 }
