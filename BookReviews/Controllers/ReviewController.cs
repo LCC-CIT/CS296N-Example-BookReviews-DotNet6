@@ -73,12 +73,17 @@ public class ReviewController : Controller
         // Get the book that this review is for
         var book = await repo.GetBookByIdAsync(bookId);
         // Add the review to the book
-        book.Reviews.Add(review);
-        // Save the book to the database
-        if (await repo.AddOrUpdateBookAsync(book) > 0)
+        if (book != null)
         {
-            return RedirectToAction("Index", new { reviewId = review.ReviewId });
+            book.Reviews.Add(review);
+            // Save the book to the database
+            if (await repo.AddOrUpdateBookAsync(book) > 0)
+            {
+                // Success! Redirect to the reveiw page with the ReviewId
+                return RedirectToAction("Index", new { reviewId = review.ReviewId });
+            }
         }
+        // Failure
         return View();  // TODO: Send an error message to the view
     }
 

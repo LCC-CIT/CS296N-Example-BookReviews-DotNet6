@@ -11,26 +11,33 @@ namespace BookReviewTests;
 
 public class ReviewControllerTests
 {
-    private readonly ApplicationDbContext context;
-    private readonly ReviewController controller;
-    private readonly BookRepository repo;
+    private readonly ApplicationDbContext _context;
+    private readonly ReviewController _controller;
+    private readonly BookRepository _repo;
+
+    // books, reviews and reviewers for use in tests
+    Book _book1, _book2, _book3;
+    Review _review1, _review2, _review3, _review4;
+    AppUser _reviewer1, _reviewer2, _reviewer3;
 
     public ReviewControllerTests()
     {
-        context = SetupTestRepo.CreateContext();
-        repo = SetupTestRepo.CreateRepo(context);
-        controller = new ReviewController(repo, null); // we don't need the UserManager
+        _context = SetupTestRepo.CreateContext();
+        _repo = SetupTestRepo.CreateRepo(_context);
+        _controller = new ReviewController(_repo, null); // we don't need the UserManager
     }
 
-    /*
+    
     [Fact]
     public void Review_PostTest_Success()
     {
         // arrange
-        // Done in the constructor
+        var book = SetupTestRepo.CreateBook();
+        _context.Add(book);
+        _context.SaveChanges();
 
         // act
-        var result = controller.Review(new Review {Book = new Book()}).Result;
+        var result = _controller.Review("This is a test review", 1).Result;
 
         // assert
         // This result is returned if the review was stored successfully
@@ -41,28 +48,31 @@ public class ReviewControllerTests
     public void Review_PostTest_Failure()
     {
         // arrange
-        // Done in the constructor
+        var book = SetupTestRepo.CreateBook();
+        _context.Add(book);
+        _context.SaveChanges();
 
         // act
-        // The review will NOT be stored successfully without a Book object
-        var result = controller.Review(new Review()).Result;
+        // The review will NOT be stored successfully without a valid BookId
+        var result = _controller.Review("This is a test review", 0).Result;
 
         // assert
         // This result is returned if the review was NOT stored successfully
         Assert.True(result.GetType() == typeof(ViewResult));
     }
-    */
+
+
     [Fact]
     // Put a book into the db and verify that it is returned by the Index method with no filtering
     public void IndexTest()
     {
         // arrange
         var book = SetupTestRepo.CreateBook();
-        context.Add(book);
-        context.SaveChanges();
+        _context.Add(book);
+        _context.SaveChanges();
 
         // act
-        var viewResult = controller.Index(null, null, null).Result as ViewResult;
+        var viewResult = _controller.Index(null, null, null).Result as ViewResult;
 
         // assert
         var books = viewResult.Model as List<Book>;
@@ -72,86 +82,46 @@ public class ReviewControllerTests
     [Fact]
     public void FilterByTitleTest()
     {
-        // Test to see if only the book and reviews with the selected title are returned 
-
-        // Arrange
-        // We don't need need to add all the properties to the models
-        var book1 = new Book { BookTitle = "Book 1" };
-        var review1 = new Review
-        {
-            ReviewText = "Test text 1 for book 1",
-            Reviewer = new AppUser()
-        };
-        book1.Reviews.Add(review1);
-        context.Add(book1);
-        var book2 = new Book { BookTitle = "Book 2" };
-        var review2 = new Review
-        {
-            ReviewText = "Test text 2 for book 2",
-            Reviewer = new AppUser()
-        };
-        book2.Reviews.Add(review2);
-        var review3 = new Review
-        {
-            ReviewText = "Test text 3 for book 2",
-            Reviewer = new AppUser()
-        };
-        book2.Reviews.Add(review3);
-        context.Add(book2);
-        var book3 = new Book { BookTitle = "Book 3" };
-        var review4 = new Review
-        {
-            ReviewText = "Test text 4 for book 2",
-            Reviewer = new AppUser()
-        };
-        book3.Reviews.Add(review4);
-        context.Add(book3);
-        context.SaveChanges();
-
-        var controller = new ReviewController(repo, null); // I don't need a UserManager
+        createBooksReviewsAndReviewers();
+        var controller = new ReviewController(_repo, null); // I don't need a UserManager
 
         // Act
-        var filteredBooksView = controller.Index(null, book2.BookTitle, null).Result as ViewResult;
+        var filteredBooksView = controller.Index(null, _book2.BookTitle, null).Result as ViewResult;
         var filteredBooks = filteredBooksView.Model as List<Book>;
 
         // Assert
         // Just the second book, with two reviews should have been returned
         Assert.Single(filteredBooks);
-        Assert.Equal(filteredBooks.First().BookTitle, book2.BookTitle);
-        Assert.Equal(filteredBooks.First().Reviews[0], book2.Reviews[0]);
-        Assert.Equal(filteredBooks.First().Reviews[1], book2.Reviews[1]);
+        Assert.Equal(filteredBooks.First().BookTitle, _book2.BookTitle);
+        Assert.Equal(filteredBooks.First().Reviews[0], _book2.Reviews[0]);
+        Assert.Equal(filteredBooks.First().Reviews[1], _book2.Reviews[1]);
     }
 
-    /*
+    
     [Fact]
     public void FilterByReviewerTest()
     {
-        // Test to see if only reviews with the selected title are returned 
+        // Test to see if only books reviewed by the selected reviewer are returned 
 
         // Arrange
-        var reviews = new List<Review>();
-        // We don't need need to add all the properties to the models since we aren't testing that.
-        var review1 = new Review() { Reviewer = new AppUser() { Name = "Reviewer 1" }, Book = new Book() };
-        repo.StoreBookAsync(review1);
-        repo.StoreBookAsync(review1);
-        var review2 = new Review() { Reviewer = new AppUser() { Name = "Reviewer 2" }, Book = new Book() };
-        repo.StoreBookAsync(review2);
-        repo.StoreBookAsync(review2);
-        var review4 = new Review() { Reviewer = new AppUser() { Name = "Reviewer 3" }, Book = new Book() };
-        repo.StoreBookAsync(review4);
-        repo.StoreBookAsync(review4);
+        createBooksReviewsAndReviewers();
 
-        var controller = new ReviewController(repo, null);  // I don't need a UserManager
+
+        var controller = new ReviewController(_repo, null);  // I don't need a UserManager
 
         // Act
-        var filteredBooks = controller.ReviewerQuery(review2.Reviewer.Name).ToList<Review>();
-
+        var filteredBooksView = controller.Index(_review2.Reviewer.Name, null, null).Result as ViewResult;
+        var filteredBooks = filteredBooksView.Model as List<Book>;
         // Assert
         Assert.Equal(2, filteredBooks.Count);
-        Assert.Equal(filteredBooks[0].Reviewer.Name, review2.Reviewer.Name);
-        Assert.Equal(filteredBooks[1].Reviewer.Name, review2.Reviewer.Name);
+        Assert.NotNull(filteredBooks[0].Reviews
+            .Where(r => r.Reviewer.Name == _review2.Reviewer.Name)
+            .FirstOrDefault());
+        Assert.NotNull(filteredBooks[1].Reviews
+            .Where(r => r.Reviewer.Name == _review2.Reviewer.Name)
+            .FirstOrDefault());
     }
-    */
+    
     
     /* Can't test this without a UserManager
     // Test adding a comment to a review using the Comment action method
@@ -186,4 +156,45 @@ public class ReviewControllerTests
         Assert.Equal(book.Reviews.First().ReviewId, ((RedirectToActionResult)result).RouteValues["reviewId"]);
     }
     */
+
+    private void createBooksReviewsAndReviewers()
+    {
+        // We don't need need to add all the properties to the models
+        _book1 = new Book { BookTitle = "Book 1" };
+        _reviewer1 = new AppUser { Name = "Reviewer One" };
+        _review1 = new Review
+        {
+            ReviewText = "Test text 1 for book 1",
+            Reviewer = _reviewer1
+        };
+        _book1.Reviews.Add(_review1);
+        _context.Add(_book1);
+
+        _book2 = new Book { BookTitle = "Book 2" };
+        _review2 = new Review
+        {
+            ReviewText = "Test text 2 for book 2",
+            Reviewer = _reviewer1
+        };
+        _book2.Reviews.Add(_review2);
+        _reviewer2 = new AppUser { Name = "Reviewer Two" };
+        _review3 = new Review
+        {
+            ReviewText = "Test text 3 for book 2",
+            Reviewer = _reviewer2
+        };
+        _book2.Reviews.Add(_review3);
+        _context.Add(_book2);
+
+        _reviewer3 = new AppUser { Name = "Reviewer Three" };
+        _book3 = new Book { BookTitle = "Book 3" };
+        _review4 = new Review
+        {
+            ReviewText = "Test text 4 for book 2",
+            Reviewer = _reviewer3
+        };
+        _book3.Reviews.Add(_review4);
+        _context.Add(_book3);
+        _context.SaveChanges();
+    }
 }
