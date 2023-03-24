@@ -63,6 +63,8 @@ public class ReviewController : Controller
     [HttpPost]
     public async Task<IActionResult> Review(string reviewText, int bookId)
     {
+        // TODO: Use a ViewModel to get the review text and book id from the form
+        // since currently there is no model to check ModelState validity on.
         if (ModelState.IsValid)
         {             // Create a new Review object
             var review = new Review { ReviewText = reviewText };
