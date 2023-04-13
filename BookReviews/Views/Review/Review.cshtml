@@ -1,15 +1,19 @@
 ﻿@model Review
-
-<h1 class="display-4">Add a Review</h1>
-<form method="post">
-    <label asp-for="Book.BookTitle">Title</label>
-    <input asp-for="Book.BookTitle" /><br />
-
-    <label asp-for="Book.AuthorName">Author</label>
-    <input asp-for="Book.AuthorName" /><br />
-
-    <label asp-for="ReviewText">Review</label>
+<h1 class="display-4">Write a Review for @ViewBag.BookTitle</h1>
+<form asp-controller="Review" asp-action="Review" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <label asp-for="ReviewText">Review</label><br />
     <textarea asp-for="ReviewText"></textarea><br />
+    <span asp-validation-for="ReviewText" class="text-danger"></span>
+
+    <label asp-for="BookId" hidden="hidden"></label>
+    <input asp-for="BookId" hidden="hidden">
 
     <button type="submit">Submit</button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

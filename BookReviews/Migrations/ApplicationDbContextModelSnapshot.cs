@@ -16,8 +16,41 @@ namespace BookReviews.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.13")
+                .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.Property<int>("AuthorsAuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksBookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorsAuthorId", "BooksBookId");
+
+                    b.HasIndex("BooksBookId");
+
+                    b.ToTable("AuthorBook");
+                });
+
+            modelBuilder.Entity("BookReviews.Models.Author", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("AuthorId");
+
+                    b.ToTable("Authors");
+                });
 
             modelBuilder.Entity("BookReviews.Models.Book", b =>
                 {
@@ -25,16 +58,13 @@ namespace BookReviews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("AuthorName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("BookTitle")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<int>("Isbn")
-                        .HasColumnType("int");
+                    b.Property<ulong>("Isbn")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<DateTime>("PubDate")
                         .HasColumnType("datetime(6)");
@@ -45,6 +75,32 @@ namespace BookReviews.Migrations
                     b.HasKey("BookId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("BookReviews.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("CommenterId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("CommenterId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("BookReviews.Models.Review", b =>
@@ -61,7 +117,8 @@ namespace BookReviews.Migrations
 
                     b.Property<string>("ReviewText")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("ReviewerId")
                         .IsRequired()
@@ -288,10 +345,40 @@ namespace BookReviews.Migrations
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.HasOne("BookReviews.Models.Author", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorsAuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookReviews.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookReviews.Models.Comment", b =>
+                {
+                    b.HasOne("BookReviews.Models.AppUser", "Commenter")
+                        .WithMany()
+                        .HasForeignKey("CommenterId");
+
+                    b.HasOne("BookReviews.Models.Review", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Commenter");
+                });
+
             modelBuilder.Entity("BookReviews.Models.Review", b =>
                 {
-                    b.HasOne("BookReviews.Models.Book", "Book")
-                        .WithMany()
+                    b.HasOne("BookReviews.Models.Book", null)
+                        .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -301,8 +388,6 @@ namespace BookReviews.Migrations
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
 
                     b.Navigation("Reviewer");
                 });
@@ -356,6 +441,16 @@ namespace BookReviews.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BookReviews.Models.Book", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("BookReviews.Models.Review", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

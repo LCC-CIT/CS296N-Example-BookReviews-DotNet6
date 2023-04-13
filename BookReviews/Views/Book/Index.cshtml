@@ -1,18 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    ViewData["Title"] = "Books";
+@model IEnumerable<Book>
 
+@{
+    ViewData["Title"] = "Index";
 }
-<div class="text-center">
-    <h1 class="display-4">Books</h1>
-    <p>
-        Coming in the future...<br />
-        ... a list of the books reviewed on this site.
-    </p>
-    <p>
-        Take a <a href="/Book/Quiz/">quiz</a> on books and authors.
-    </p>
-    <a href="/Home">Home</a>
-</div>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BookTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Isbn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Publisher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PubDate)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Isbn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Publisher)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PubDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a> |
+                <a asp-controller="Review" asp-action="Review" asp-route-id="@item.BookId">Write a Review</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

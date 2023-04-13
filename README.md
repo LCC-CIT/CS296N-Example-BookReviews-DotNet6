@@ -10,3 +10,8 @@ This example uses a MySQL database. This guide shows how to set up a MySQL datab
 - 04-Authorization
 - 04B-Auth+SeedUsersWRoles
 - 05-Async
+- 06
+- 07-ComplexDomain
+- 08-Validation
+  - Added validation attributes to the models
+  - Revised Review.cshtml to use the Review model and to get the book title from the ViewBag
