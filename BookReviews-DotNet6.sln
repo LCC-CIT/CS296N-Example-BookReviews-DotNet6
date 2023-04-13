@@ -5,12 +5,6 @@ VisualStudioVersion = 25.0.1704.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReviews", "BookReviews\BookReviews.csproj", "{F0418CA7-7EF4-4C82-82DD-CCF3E85CD27F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A461819-49C6-4CE3-B332-C93026E6E0CD}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-		LICENSE = LICENSE
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReviewTests", "BookReviewTests\BookReviewTests.csproj", "{7A47F835-B147-4BC3-A807-8E6EA00E2EC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAACC5CA-B26F-4681-B8ED-D6C4D607B200}"
