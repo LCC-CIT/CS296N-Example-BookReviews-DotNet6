@@ -1,10 +1,10 @@
 ﻿#undef SQLITE // use SQLite if this is #define, use MySQL if it's #undef
 
-using Microsoft.EntityFrameworkCore;
-using BookReviews.Data;
 using BookReviews;
+using BookReviews.Data;
 using BookReviews.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
-#else   // The default database is MySQL
+#else // The default database is MySQL
 var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 #endif
 
-builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
+builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
@@ -46,19 +46,17 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 using (var scope = app.Services.CreateScope())
 {
+    await SeedUsers.CreateUsers(scope.ServiceProvider);
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    SeedData.Seed(context);
+    SeedData.Seed(context, scope.ServiceProvider);
 }
 
 app.Run();
-
-
-
-

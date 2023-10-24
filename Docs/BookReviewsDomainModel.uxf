@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>15</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>345</x>
+      <y>885</y>
+      <w>360</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Review
+--
++ReviewId: int
++ReviewText: string
++Rating: int
++ReviewDate: DateTime
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>870</y>
+      <w>405</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Comment
+--
++CommentId: int
++CommentText: string
++CommentDate: DateTime
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>975</y>
+      <w>210</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m2=0..*
+m1=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>825</x>
+      <y>495</y>
+      <w>375</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>AppUser
+--
++Name: string
++RoleNames: IList&lt;string&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>120</y>
+      <w>405</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>IdentityUser
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>960</x>
+      <y>285</y>
+      <w>45</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1065</x>
+      <y>660</y>
+      <w>60</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+m2=1
+m1=1
+</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>645</x>
+      <y>660</y>
+      <w>255</w>
+      <h>255</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+m2=1
+m1=1
+
+</panel_attributes>
+    <additional_attributes>10.0;150.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>705</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Book Reviews Domain Model by Brian Bird, 2023
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>0</x>
+      <y>210</y>
+      <w>1335</w>
+      <h>975</h>
+    </coordinates>
+    <panel_attributes>lt=.
+r1=Aggregate - Root Entity is Book
+</panel_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0;10.0;630.0;870.0;630.0;870.0;360.0;420.0;360.0;420.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>30</x>
+      <y>1215</y>
+      <w>915</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>Determination of composition vs. aggregation
+
+Comment objects are deleted with a review object.
+Book objects are not deleted with a review object.
+AppUser objects aren't deleted with review or comment objects.
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>285</y>
+      <w>405</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>Book
+--
++BookId: int
++BookTitle: string
++AuthorTitle: string
++Isbn: string
++Publisher: string
++PubDate: DateTime
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>465</x>
+      <y>540</y>
+      <w>60</w>
+      <h>375</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m2=1
+m1=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>675</y>
+      <w>330</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Author
+--
++AuthorId: int
++Name: string
++BirthDate: DateTime
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>540</y>
+      <w>90</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2= 1..*
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+</diagram>
