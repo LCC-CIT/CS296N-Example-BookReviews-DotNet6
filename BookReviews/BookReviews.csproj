@@ -6,11 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-BookReviews-fcb98545-ebd1-49b0-a068-7f1a534dd6c0</UserSecretsId>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Remove="Pomelo.EntityFrameworkCore.MySql" />
-        <None Remove="Microsoft.EntityFrameworkCore.Sqlite.Core" />
-    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.14" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.14" />
@@ -36,8 +31,7 @@
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Migrations\" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>
